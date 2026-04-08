@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>Distillary</title>
+      <link>https://distillary.xyz</link>
+      <description>Last 10 notes on Distillary</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>Agent Retrieval Skill</title>
+    <link>https://distillary.xyz/4---For-Agents/agent-retrieval</link>
+    <guid>https://distillary.xyz/4---For-Agents/agent-retrieval</guid>
+    <description><![CDATA[ Agent retrieval skill Any AI agent with web access can query a published Distillary brain. No API keys, no MCP server, no authentication. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 21:46:22 GMT</pubDate>
+  </item><item>
+    <title>readme</title>
+    <link>https://distillary.xyz/readme</link>
+    <guid>https://distillary.xyz/readme</guid>
+    <description><![CDATA[ Distillary Turn any knowledge source into a navigable, shareable brain. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 21:46:21 GMT</pubDate>
+  </item><item>
+    <title>Distillary</title>
+    <link>https://distillary.xyz/</link>
+    <guid>https://distillary.xyz/</guid>
+    <description><![CDATA[ Distillary Turn any knowledge source into a navigable, shareable brain. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 21:46:20 GMT</pubDate>
+  </item><item>
+    <title>Quick Start</title>
+    <link>https://distillary.xyz/1---Getting-Started/quick-start</link>
+    <guid>https://distillary.xyz/1---Getting-Started/quick-start</guid>
+    <description><![CDATA[ Quick start Try an existing brain (30 seconds) Before building your own, browse one that’s already published: Go to the Demo Brain Click a source’s root thesis — read the book’s argument in one paragraph Follow [[wikilinks]] to drill into clusters, then arguments, then evidence Open any entity page ... ]]></description>
+    <pubDate>Wed, 08 Apr 2026 21:15:59 GMT</pubDate>
+  </item><item>
+    <title>Cross-Source Analytics</title>
+    <link>https://distillary.xyz/2---Concepts/analytics</link>
+    <guid>https://distillary.xyz/2---Concepts/analytics</guid>
+    <description><![CDATA[ Cross-source analytics When your brain has two or more sources, Distillary generates a full analytical layer in shared/analytics/. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 21:05:56 GMT</pubDate>
+  </item><item>
+    <title>Demo: 10 Questions</title>
+    <link>https://distillary.xyz/4---For-Agents/demo</link>
+    <guid>https://distillary.xyz/4---For-Agents/demo</guid>
+    <description><![CDATA[ Demo: 10 questions answered from the live brain All answers below were retrieved from brain.distillary.xyz using the retrieval skill. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 20:51:00 GMT</pubDate>
+  </item><item>
+    <title>Publishing Your Brain</title>
+    <link>https://distillary.xyz/3---Deployment/publishing</link>
+    <guid>https://distillary.xyz/3---Deployment/publishing</guid>
+    <description><![CDATA[ Publishing your brain Share your brain as a static website with graph view, search, and an agent-queryable API. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 20:29:28 GMT</pubDate>
+  </item><item>
+    <title>Architecture</title>
+    <link>https://distillary.xyz/3---Deployment/architecture</link>
+    <guid>https://distillary.xyz/3---Deployment/architecture</guid>
+    <description><![CDATA[ Architecture Three layers graph LR Claude[&quot;.claude/&lt;br/&gt;Agents + Skills&quot;] --&gt; Python[&quot;distillary/&lt;br/&gt;Python utilities&quot;] Python --&gt; Brain[&quot;brain/&lt;br/&gt;Obsidian vault&quot;] Brain --&gt; Quartz[&quot;Published site&lt;br/&gt;+ agent.json&quot;] LayerWha... ]]></description>
+    <pubDate>Wed, 08 Apr 2026 19:28:53 GMT</pubDate>
+  </item><item>
+    <title>Tag Taxonomy</title>
+    <link>https://distillary.xyz/2---Concepts/tag-taxonomy</link>
+    <guid>https://distillary.xyz/2---Concepts/tag-taxonomy</guid>
+    <description><![CDATA[ Tag taxonomy Every claim in a Distillary brain is tagged across 6 dimensions. Each dimension answers a different question about the claim. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 19:28:53 GMT</pubDate>
+  </item><item>
+    <title>Pyramid Design</title>
+    <link>https://distillary.xyz/2---Concepts/pyramid-design</link>
+    <guid>https://distillary.xyz/2---Concepts/pyramid-design</guid>
+    <description><![CDATA[ Pyramid design Every source in a Distillary brain is organized as a 4-layer pyramid. ]]></description>
+    <pubDate>Wed, 08 Apr 2026 19:28:53 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>
