@@ -1,0 +1,31 @@
+# Build artifacts
+.brain-site/
+.docs-site/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Source files (don't commit copyrighted content)
+books/
+
+# Temporary pipeline files
+tmp/
+tmp2/
+
+# Archives
+toremove/
+
+# Brain vault (contains processed content — users generate their own)
+brain/
+
+# Launch checklist (internal)
+todo.md
+
+# Obsidian workspace
+brain/.obsidian/workspace.json
+brain/.obsidian/workspace-mobile.json
+brain/.obsidian/cache
+
+# IDE
+.vscode/
+.idea/

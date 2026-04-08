@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "distillary"
+version = "0.1.0"
+description = "Turn any knowledge source into a navigable, shareable brain"
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0",
+    "ebooklib>=0.18",
+    "beautifulsoup4>=4.12",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.8"]

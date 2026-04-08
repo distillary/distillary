@@ -1,0 +1,192 @@
+# Distillary — Knowledge Distillation with Claude Agents
+
+Turn any knowledge source into a navigable brain vault using parallel Claude agents. Books, YouTube videos, podcasts, articles, lectures — anything with ideas gets distilled into the same format. Shared concepts bridge sources. Your annotations are first-class.
+
+## Engineering principle
+
+**Always fix root causes, not byproducts.** When something breaks, trace the issue to its origin — the agent prompt, the parser, or the post-processing code — and fix it there. Never patch outputs manually. If an agent produces malformed YAML, fix the agent prompt AND add normalization to `_normalize_note_meta()`. If a parser misreads content, fix the parser regex. Every fix must be in code so the next run produces correct output automatically.
+
+## How agents navigate the brain
+
+Entity pages are question-answering hubs. Their backlinks are the answer.
+
+**"What does the brain know about X?"** → find the entity for X → its backlinks ARE claims about X from every source. Follow backlinks to read evidence. Follow wikilinks in claims to discover related concepts. Understanding builds through connections, not data dumps.
+
+`agent.json` → entity page → backlinks → specific claims. ~2,500 tokens for a complete multi-source answer with citations.
+
+## The Brain
+
+`brain/` is the single Obsidian vault. Everything lives inside it.
+
+```
+brain/
+  _index.md                    — start here
+  _suggestions.md              — doctor findings
+  *.base                       — analytical Bases
+  sources/                     — processed sources (agent-generated)
+    {source-slug}/
+      claims/{atoms,structure,clusters}
+      entities/{concepts,people,companies,works}
+      _source.md               — metadata: type, author, url, date
+  personal/                    — your own notes (human-written)
+    annotations/               — reactions to claims
+    notes/                     — freeform thinking
+    questions/                 — things to explore
+  shared/                      — cross-source connections
+    concepts/                  — bridge entities spanning sources
+    analytics/                 — comparisons, mappings, stats
+  .obsidian/snippets/
+```
+
+## Source types
+
+Any source that contains ideas can be ingested:
+
+| Type | Input | How it's extracted |
+|---|---|---|
+| Book | EPUB, PDF, TXT | `extract_text()` from file |
+| YouTube video | URL | Transcript via `yt-dlp` or YouTube API |
+| Podcast | URL or audio file | Transcript via Whisper or API |
+| Article | URL | Web fetch → clean text |
+| Lecture notes | PDF, markdown | `extract_text()` from file |
+| Research paper | PDF | `extract_text()` from file |
+| Personal notes | markdown | Already in the brain — just link |
+
+The extraction step produces text. Everything after that is the same pipeline: extract claims → dedupe → entities → group → pyramid → link → assemble.
+
+## Source metadata
+
+Every source folder has a `_source.md` with metadata:
+
+```yaml
+---
+title: "The Lean Startup"
+author: "Eric Ries"
+type: book
+published: 2011
+url: ""
+source_slug: ries-lean-startup
+ingested: 2026-04-07
+extracted_by: claude-haiku-4.5
+---
+```
+
+This enables filtering by source type, author, date, and medium.
+
+## Agents
+
+### Source processing (single-source pipeline)
+
+| Agent | Model | Job |
+|---|---|---|
+| `extract` | haiku | Text chunk → atomic claims with `source_ref` |
+| `dedupe` | haiku | Merge duplicate claims |
+| `entities` | haiku | Identify people, concepts, companies |
+| `entity-link` | haiku | Add `[[wikilinks]]` to claim bodies |
+| `link` | haiku | Find tensions, patterns, evidence |
+| `group` | opus | Cluster claims into parents (L0→L1) |
+| `pyramid` | opus | Build hierarchy to root (L1→L2→L3) |
+| `source-index` | haiku | Write compelling source index page with narrative, not mechanical tables |
+
+### Brain-level operations
+
+| Agent | Model | Job |
+|---|---|---|
+| `doctor` | haiku | Fix orphans, ghost links, suggest explorations |
+| `combine` | haiku | Merge sources into brain structure |
+| `concept-mapper` | opus | Find same-concept-different-name pairs across sources |
+| `compare` | opus | Write synthesis essay comparing sources |
+| `bridge-builder` | haiku | Create unified entity notes from mapping |
+| `annotate` | haiku | Help user write annotations in proper format |
+| `explore` | opus | Suggest what to investigate based on gaps + interests |
+
+### Rules (enforced in all agents)
+
+- **DO NOT number notes**
+- **DO NOT use `# H1` section dividers**
+- **Parent format**: `Parent: [[Title]]` (no quotes)
+- **Keep titles under 150 characters**
+- **Preserve full body text** when editing
+
+## Skills
+
+| Skill | Triggers | What it does |
+|---|---|---|
+| `distillary-add-source` | "add book", "add video", "new source" | Full pipeline: ingest + decompose + auto-bridge |
+| `distillary-decompose` | "decompose", "extract claims" | Core extraction pipeline (used by add-source) |
+| `distillary-combine` | "combine", "merge vaults" | Cross-vault concept mapping + bridges |
+| `distillary-doctor` | "fix", "check", "issues" | Fix + discover + suggestions |
+| `distillary-publish` | "publish", "share" | Git + Quartz deploy + agent.json generation |
+| `distillary-retrieval` | "query brain", "look up" | **Shareable** — give to any agent to query a published brain via URL |
+| `distillary-use-brain` | "explore brain", "learn about" | Full navigation guide — 6 strategies by question type |
+| `obsidian-bases` | "create base" | Analytical .base files |
+| `quartz-rendering` | "add diagram", "add callout" | What Quartz can render: callouts, Mermaid, wikilinks, code, LaTeX, embeds |
+| `docs-writing` | "write docs", "improve docs" | How to write good docs: text first, diagrams support, callouts highlight |
+
+## Python utilities
+
+```
+distillary/
+  extraction/loader.py     — extract_text(), split_text()
+  notes.py                 — Note dataclass, parse_notes(), serialize()
+  vault_ops.py             — fix_vault(), reinforce_links(), validate(),
+                             build_entity_hubs(), fix_ghost_links()
+  doctor.py                — doctor()
+  cross_vault.py           — combine_vaults(), _build_bridges()
+  sharing.py               — init_vault()
+  publish.py               — publish(), preview()
+```
+
+Old API pipeline (Gemini/Anthropic/OpenAI) is in `deprecated/`.
+
+## Workflows
+
+### Add a source to the brain
+
+```
+1. Extract + split text (python)
+2. Extract claims — parallel extract agents (haiku)
+3. Dedupe + entities — parallel haiku agents
+4. Group + pyramid — parallel opus agents
+5. Link — parallel haiku agents
+6. Assemble into brain/sources/{slug}/ (python: fix_vault)
+7. Post-process entire brain (python: reinforce + hubs + doctor)
+8. Auto-bridge — concept-mapper (opus) + bridge-builder (haiku)
+9. Update brain/_index.md
+```
+
+### Add your own notes
+
+Write to `brain/personal/annotations/` or `brain/personal/notes/`. Use `[[wikilinks]]` to link to claims and entities. The `annotate` agent helps with formatting.
+
+### Explore what to read next
+
+The `explore` agent reads your annotations, ghost links, and bridge gaps. It suggests specific concepts to promote, contradictions to investigate, and patterns in your thinking.
+
+### Publish
+
+Say "publish my brain" → Quartz static site on GitHub Pages with the full brain graph + agent.json API.
+
+## Note format
+
+```yaml
+tags: [type/claim/atom, priority/core, certainty/argued,
+       stance/endorsed, domain/X, role/argument, source/slug]
+kind: claim
+layer: 0
+proposition: "subject → relationship → object"
+source_ref: "Chapter 3: Steer"
+published: 2011
+extracted_by: claude-haiku-4.5
+```
+
+## Key design decisions
+
+- **One vault (brain), not many** — everything connected, bridges grow incrementally
+- **Any source type** — books, videos, podcasts, articles, papers all become the same note format
+- **Haiku for bulk, opus for reasoning** — cost/speed tradeoff
+- **Your voice is data** — annotations are queryable, bridge to claims
+- **Post-processing catches agent mistakes** — `fix_ghost_links`, `_wire_parent_links`, `_split_frontmatter` handle format inconsistencies mechanically
+- **`source/` tag on everything** — distinguishes sources, enables filtering
+- **`source/cross-vault` tag** — marks bridge concepts that span sources
+- **`_source.md` per source** — metadata: type, author, url, date for filtering and attribution
