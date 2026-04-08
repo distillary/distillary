@@ -97,6 +97,7 @@ This enables filtering by source type, author, date, and medium.
 | `concept-mapper` | opus | Find same-concept-different-name pairs across sources |
 | `compare` | opus | Write synthesis essay comparing sources |
 | `bridge-builder` | haiku | Create unified entity notes from mapping |
+| `analytics` | haiku | Generate cross-source reports: statistical profiles, entity overlap, set operations, graph analytics |
 | `annotate` | haiku | Help user write annotations in proper format |
 | `explore` | opus | Suggest what to investigate based on gaps + interests |
 

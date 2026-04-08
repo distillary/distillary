@@ -77,14 +77,16 @@ validate("vault-combined/")
 
 ### Step 6: Generate analytics
 
-Run graph analytics (needs NetworkX):
+Launch an `analytics` agent to generate all cross-source reports:
 
-```python
-import networkx as nx
-# ... build graph from wikilinks, compute centrality, write to analytics/
+```
+Agent(subagent_type="analytics", model="haiku",
+  prompt="Read all claims and entities in brain/sources/.
+  Generate statistical-profiles.md, entity-overlap.md, set-operations.md,
+  and graph-analytics.md in brain/shared/analytics/.")
 ```
 
-Or launch a haiku agent to generate statistical profiles.
+This produces 4 reports: statistical profiles comparing authorial style, entity overlap and hub identification, claim-level set operations, and graph centrality analysis.
 
 ## What the combined vault contains
 
