@@ -138,7 +138,7 @@ def generate_agent_index(brain_dir: str | Path, output_dir: str | Path) -> dict:
                           "start at the index, follow links by relevance to your goal. "
                           "Each page has content + links to go deeper. "
                           "2-4 page fetches answers most questions.",
-            "skill": "/static/skill.md",
+            "skill": "/static/skill.txt",
         },
         "how_to_navigate": {
             "start": "/",

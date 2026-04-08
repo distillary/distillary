@@ -80,7 +80,7 @@ Source (book, video, article)
 Published brains have an `agent.json` manifest. Any agent can query them:
 
 ```
-curl https://brain.distillary.xyz/static/skill.md   # get the skill
+curl https://brain.distillary.xyz/static/skill.txt   # get the skill
 curl https://brain.distillary.xyz/static/agent.json  # get the manifest
 ```
 

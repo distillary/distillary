@@ -7,7 +7,7 @@ Any AI agent with web access can query a published Distillary brain. No API keys
 One fetch. Paste it into your agent. Done.
 
 ```
-curl https://brain.distillary.xyz/static/skill.md
+curl https://brain.distillary.xyz/static/skill.txt
 ```
 
 Or from GitHub:
@@ -16,10 +16,10 @@ Or from GitHub:
 curl https://raw.githubusercontent.com/distillary/distillary/main/.claude/skills/distillary-retrieval.md
 ```
 
-Every published brain serves its own skill at `/static/skill.md`. The `agent.json` manifest also points to it:
+Every published brain serves its own skill at `/static/skill.txt`. The `agent.json` manifest also points to it:
 
 ```json
-{ "brain": { "skill": "/static/skill.md" } }
+{ "brain": { "skill": "/static/skill.txt" } }
 ```
 
 An agent discovering a brain for the first time can fetch `agent.json`, see the skill URL, fetch the skill, and start querying — fully autonomous, zero human setup.

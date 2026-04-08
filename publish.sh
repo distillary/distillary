@@ -48,6 +48,6 @@ else
     npx quartz build
     # Copy retrieval skill as raw markdown (after build, so Quartz doesn't process it)
     mkdir -p "$SITE/public/static"
-    cp "$DIR/.claude/skills/distillary-retrieval.md" "$SITE/public/static/skill.md"
+    cp "$DIR/.claude/skills/distillary-retrieval.md" "$SITE/public/static/skill.txt"
     echo "Built! Files in .brain-site/public/"
 fi
