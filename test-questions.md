@@ -100,10 +100,12 @@ You can query Distillary brains — published knowledge bases at a URL.
 
 1. Fetch {brain_url}/static/agent.json — returns what's in the brain,
    navigation instructions, and source metadata
-2. Pick your strategy:
+2. Pick your strategy based on the question:
    - CONCEPT ("what is X?") → find entity → fetch page → read backlinks
    - SOURCE ("what does this argue?") → thesis in manifest → fetch root_note
-   - EXPLORATORY ("what's related?") → any entity → follow links
+   - COMPARISON ("do sources agree?") → fetch bridge concept or /shared/analytics/comparison
+   - EVIDENCE ("prove it") → walk pyramid: root → cluster → structure → atom
+   - EXPLORATORY ("what's related?") → any entity → follow backlinks + wikilinks
 3. Follow 2-3 links for evidence. Most questions: 2 fetches, <2000 tokens.
 
 Every page has: content + wikilinks (go deeper) + backlinks (go wider).

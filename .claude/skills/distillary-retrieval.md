@@ -57,6 +57,18 @@ GET {brain_url}/shared/analytics/comparison
 
 Or fetch a bridge concept — it shows both sources' perspectives on the same idea.
 
+### Your question needs EVIDENCE ("prove it", "show me the argument", "what's the chain?")
+
+Walk the pyramid top-down. Start at the root note (from agent.json `root_note`):
+
+```
+GET {brain_url}{root_note}        → see 4 clusters
+GET {brain_url}/sources/{slug}/claims/clusters/{cluster}  → see ~5 structure notes
+GET {brain_url}/sources/{slug}/claims/structure/{note}    → see ~5 atomic claims with source_ref
+```
+
+Each level links to the next. Follow by relevance — you don't need to read every branch. 3-4 fetches gives you a complete evidence chain from thesis to specific chapter reference.
+
 ### Your question is EXPLORATORY ("what's related?", "explore this topic")
 
 Start at any entity page. Read backlinks. Pick an interesting claim. That claim has wikilinks to other entities. Follow one. Read its backlinks. Repeat. Understanding builds through the web of connections.
