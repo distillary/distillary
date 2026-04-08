@@ -80,12 +80,30 @@ Source (book, video, article)
 Published brains have an `agent.json` manifest. Any agent can query them:
 
 ```
-GET /agent.json → see sources, bridges, navigation instructions
-GET /shared/concepts/real-signals → both perspectives + 62 backlinks
-= 2 requests. Multi-source answer with citations.
+curl https://brain.distillary.xyz/static/skill.md   # get the skill
+curl https://brain.distillary.xyz/static/agent.json  # get the manifest
 ```
 
-Entity backlinks are the search engine. No MCP server, no auth, no setup. See the [retrieval skill](docs/guides/agent-retrieval.md).
+Paste the skill into any agent's system prompt — Claude Code, Codex, Gemini CLI, Cursor, or anything with HTTP access. The agent fetches `agent.json`, picks a strategy, and walks pages by relevance. 2 fetches, under 2000 tokens per question.
+
+### Demo: 10 questions answered from the live brain
+
+| # | Question | Strategy | Fetches |
+|---|---|---|---|
+| 1 | What books are in this brain? | Read manifest | 1 |
+| 2 | What are the main ideas? | Fetch clusters | 2 |
+| 3 | What does Barnum say about debt? | Concept lookup | 2 |
+| 4 | Does luck play a role in success? | Concept lookup | 2 |
+| 5 | How important is integrity? | Concept lookup | 2 |
+| 6 | Career advice? | Concept lookup | 2 |
+| 7 | Role of health in wealth? | Concept lookup | 2 |
+| 8 | How to advertise? | Concept lookup | 2 |
+| 9 | Who is P.T. Barnum? | Entity lookup | 2 |
+| 10 | Root thesis? | Fetch root note | 2 |
+
+**Average: 1.9 fetches per question.** All answers sourced from [brain.distillary.xyz](https://brain.distillary.xyz) — no local files. [Full answers →](https://distillary.xyz/4---For-Agents/demo)
+
+Five question strategies: **concept** ("what is X?"), **source** ("summarize"), **comparison** ("do they agree?"), **evidence** ("prove it"), **exploration** ("what's related?"). [Setup guide →](https://distillary.xyz/4---For-Agents/agent-retrieval)
 
 ---
 
@@ -98,13 +116,13 @@ Tag repos `distillary-brain` on GitHub. Join the [Discord](https://discord.gg/rG
 ## Project structure
 
 ```
-.claude/           14 agents + 10 skills (the brain)
+.claude/           17 agents + 10 skills (the brain)
 distillary/        Python utilities agents call
 brain/             Your knowledge vault (the output)
 docs/              Documentation
 ```
 
-[Full docs →](docs/) | [Architecture →](docs/guides/architecture.md) | [README in docs →](docs/)
+[Full docs →](https://distillary.xyz) | [Architecture →](https://distillary.xyz/3---Deployment/architecture) | [Agent demo →](https://distillary.xyz/4---For-Agents/demo)
 
 ---
 
