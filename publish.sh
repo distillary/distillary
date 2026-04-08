@@ -21,6 +21,9 @@ cp "$DIR/quartz-config/quartz.config.ts" "$SITE/"
 cp "$DIR/quartz-config/quartz.layout.ts" "$SITE/"
 cp "$DIR/quartz-config/Footer.tsx" "$SITE/quartz/components/Footer.tsx"
 
+# Override baseUrl for brain site (not docs site)
+sed -i '' 's|baseUrl: "distillary.xyz"|baseUrl: "brain.distillary.xyz"|' "$SITE/quartz.config.ts"
+
 # Copy brain content
 rm -rf "$SITE/content" "$SITE/public"
 cp -r "$DIR/brain" "$SITE/content"
@@ -43,5 +46,8 @@ if [ "$1" = "--serve" ]; then
     npx quartz build --serve
 else
     npx quartz build
+    # Copy retrieval skill as raw markdown (after build, so Quartz doesn't process it)
+    mkdir -p "$SITE/public/static"
+    cp "$DIR/.claude/skills/distillary-retrieval.md" "$SITE/public/static/skill.md"
     echo "Built! Files in .brain-site/public/"
 fi
