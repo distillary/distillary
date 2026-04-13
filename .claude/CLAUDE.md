@@ -148,8 +148,9 @@ Old API pipeline (Gemini/Anthropic/OpenAI) is in `deprecated/`.
 1. Extract + split text (python)
 2. Extract claims — parallel extract agents (haiku)
 3. Dedupe + entities — parallel haiku agents
-4. Group + pyramid — parallel opus agents
-5. Link — parallel haiku agents
+4. Entity-link — haiku agent (add [[wikilinks]] to claim bodies → linked_claims.md)
+5. Group + pyramid — opus agents (**input: linked_claims.md**, not deduped)
+6. Link — parallel haiku agents (cross-claim tensions, patterns)
 6. Assemble into brain/sources/{slug}/ (python: fix_vault)
 7. Post-process entire brain (python: reinforce + hubs + doctor)
 8. Auto-bridge — concept-mapper (opus) + bridge-builder (haiku)

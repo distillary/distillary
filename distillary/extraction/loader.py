@@ -34,7 +34,11 @@ def extract_text(path: str | Path) -> str:
 
 
 def _extract_epub(path: Path) -> str:
-    """Extract text from EPUB using ebooklib + BeautifulSoup."""
+    """Extract text from EPUB using ebooklib + BeautifulSoup.
+
+    Falls back to direct ZIP extraction for scanned/OCR epubs where
+    ebooklib's ITEM_DOCUMENT enumeration misses page content.
+    """
     import ebooklib
     from bs4 import BeautifulSoup
     from ebooklib import epub
@@ -48,7 +52,27 @@ def _extract_epub(path: Path) -> str:
         if text:
             texts.append(text)
 
-    return "\n\n".join(texts)
+    result = "\n\n".join(texts)
+
+    # Fallback: if ebooklib extracted very little, read HTML files from ZIP
+    if len(result) < 500:
+        import re
+        import zipfile
+
+        with zipfile.ZipFile(path) as zf:
+            html_names = sorted(
+                [n for n in zf.namelist() if re.search(r"page_\d+\.html$", n)],
+                key=lambda n: int(re.search(r"page_(\d+)", n).group(1)),
+            )
+            texts = []
+            for name in html_names:
+                soup = BeautifulSoup(zf.read(name), "html.parser")
+                text = soup.get_text(separator=" ", strip=True)
+                if text:
+                    texts.append(text)
+            result = "\n\n".join(texts)
+
+    return result
 
 
 def _extract_pdf(path: Path) -> str:

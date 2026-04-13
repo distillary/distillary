@@ -175,16 +175,111 @@ def _extract_related_bullets(body: str) -> list[str]:
 
 
 def _merge_entity_links(by_title: dict[str, Note], linked_notes: list[Note]) -> None:
-    """Take entity-linked bodies and merge wikilinks into master notes."""
+    """Surgically add entity wikilinks from linked_notes into master notes.
+
+    Instead of wholesale-replacing the body (which can corrupt existing
+    claim wikilinks when the entity-link agent inserts [[Entity]] inside
+    [[Claim Title containing Entity]]), this finds NEW entity wikilinks
+    and inserts them into the master body only at positions outside
+    existing wikilinks.
+    """
     for ln in linked_notes:
         if ln.title not in by_title:
             continue
         master = by_title[ln.title]
-        # If the linked version has more [[wikilinks]] than the master, use it
-        master_links = len(_WIKILINK_RE.findall(master.body))
-        linked_links = len(_WIKILINK_RE.findall(ln.body))
-        if linked_links > master_links:
-            master.body = ln.body
+
+        # Find wikilinks the entity-link agent added that the master lacks
+        master_wl = set(_WIKILINK_RE.findall(master.body))
+        linked_wl = set(_WIKILINK_RE.findall(ln.body))
+        new_entity_wl = linked_wl - master_wl
+
+        # Insert each new entity wikilink into master, but ONLY outside
+        # existing wikilinks (so [[Claim about X]] is never corrupted)
+        body = master.body
+        for entity_name in new_entity_wl:
+            match = _find_outside_wikilinks(body, entity_name)
+            if match:
+                body = body[:match[0]] + f"[[{entity_name}]]" + body[match[1]:]
+
+        # Merge ## Related bullets from the entity-linked version
+        new_bullets = _extract_related_bullets(ln.body)
+        existing_bullets = _extract_related_bullets(body)
+        added = [b for b in new_bullets if b not in existing_bullets]
+        if added:
+            if "## Related" not in body:
+                body = body.rstrip() + "\n\n## Related\n"
+            for bullet in added:
+                body = body.rstrip() + "\n" + bullet
+
+        master.body = body
+
+
+# ---------------------------------------------------------------------------
+# fix_nested_wikilinks — remove [[inner]] from inside [[outer [[inner]] rest]]
+# ---------------------------------------------------------------------------
+
+def fix_nested_wikilinks(vault_dir: str | Path) -> dict:
+    """Remove nested wikilinks: [[outer [[inner]] rest]] → [[outer inner rest]].
+
+    This can happen when reinforce_links or entity-link agents insert entity
+    wikilinks inside existing claim wikilinks.
+    """
+    vault = Path(vault_dir)
+    stats = {"files_modified": 0, "nests_fixed": 0}
+
+    for f in _find_all_md(vault):
+        content = f.read_text(encoding="utf-8")
+        fixed = _flatten_nested_wikilinks(content)
+        if fixed != content:
+            f.write_text(fixed, encoding="utf-8")
+            nests = content.count("[[") - fixed.count("[[")
+            stats["files_modified"] += 1
+            stats["nests_fixed"] += nests
+
+    log.info("fix_nested_wikilinks: %s", stats)
+    return stats
+
+
+def _flatten_nested_wikilinks(text: str) -> str:
+    """Remove inner [[ ]] from nested wikilinks."""
+    # Repeatedly flatten until stable
+    prev = None
+    while prev != text:
+        prev = text
+        result = []
+        i = 0
+        while i < len(text):
+            if i < len(text) - 1 and text[i:i+2] == '[[':
+                # Found opening [[ — scan for the balanced close
+                inner_start = i + 2
+                depth = 1
+                j = inner_start
+                while j < len(text) - 1 and depth > 0:
+                    if text[j:j+2] == '[[':
+                        depth += 1
+                        j += 2
+                    elif text[j:j+2] == ']]':
+                        depth -= 1
+                        j += 2
+                    else:
+                        j += 1
+                if depth == 0:
+                    # Everything from inner_start to j-2 is the content
+                    inner = text[inner_start:j-2]
+                    # Strip any inner [[ and ]] from the content
+                    inner = inner.replace('[[', '').replace(']]', '')
+                    result.append('[[')
+                    result.append(inner)
+                    result.append(']]')
+                    i = j
+                else:
+                    result.append(text[i])
+                    i += 1
+            else:
+                result.append(text[i])
+                i += 1
+        text = ''.join(result)
+    return text
 
 
 # ---------------------------------------------------------------------------
@@ -1135,10 +1230,32 @@ def _split_frontmatter(content: str) -> tuple[str | None, str]:
 
 def _find_outside_wikilinks(body: str, name: str) -> tuple[int, int] | None:
     """Find *name* in *body* only in regions NOT inside [[...]]."""
-    # Build a set of protected ranges (inside wikilinks)
+    # Build a set of protected ranges (inside wikilinks).
+    # Handle nested brackets by tracking depth instead of relying on
+    # the simple regex which breaks on [[outer [[inner]] rest]].
     protected: list[tuple[int, int]] = []
-    for m in _WIKILINK_RE.finditer(body):
-        protected.append((m.start(), m.end()))
+    i = 0
+    while i < len(body) - 1:
+        if body[i:i+2] == '[[':
+            start = i
+            depth = 1
+            i += 2
+            while i < len(body) - 1 and depth > 0:
+                if body[i:i+2] == '[[':
+                    depth += 1
+                    i += 2
+                elif body[i:i+2] == ']]':
+                    depth -= 1
+                    if depth == 0:
+                        protected.append((start, i + 2))
+                    i += 2
+                else:
+                    i += 1
+            if depth > 0:
+                # Unclosed wikilink — protect to end of string
+                protected.append((start, len(body)))
+        else:
+            i += 1
 
     # Use word boundaries to avoid matching substrings (System inside Systematic)
     pattern = re.compile(r"\b" + re.escape(name) + r"\b", re.IGNORECASE)

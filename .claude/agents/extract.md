@@ -24,19 +24,74 @@ tags:
   - certainty/[established|argued|speculative]
   - stance/[endorsed|criticized|neutral]
   - domain/[single word]
-  - role/[fact|argument|prediction|definition|example|methodology]
+  - role/[fact|argument|prediction|definition|example|methodology|rebuttal]
   - source/[slug provided by user]
+  - backing/[category]
+  - strength/[highest strength among backings]
 kind: claim
 layer: 0
 proposition: "[subject → relationship → object, lowercase]"
 source_ref: "[chapter or section where this claim appears]"
 published: [year provided by user]
 extracted_by: claude-haiku-4.5
-prompt_version: v2.1
+prompt_version: v3.0
+backing:
+  - category: [textual|transmitted|consensus|analogical|empirical|rational|experiential|authority|silence]
+    subtype: "[domain-specific label]"
+    ref: "[citation reference]"
+    snippet: "[first ~15 words of evidence text]"
+    strength: [definitive|strong|moderate|weak|contested]
+    warrant: "[1 sentence: why this evidence supports this claim]"
 ---
 
 [2-4 sentence statement. No [[wikilinks]].]
 ```
+
+## Argumentation capture
+
+When the author provides evidence for a claim, capture it in the `backing:` field.
+
+Each backing entry:
+- **category**: one of 8 universal types + silence:
+  - `textual` — direct citation from an authoritative text
+  - `transmitted` — a report passed through a chain of people
+  - `consensus` — collective agreement of qualified people
+  - `analogical` — extension from known case to new case
+  - `empirical` — direct observation or measurement
+  - `rational` — pure logical deduction or induction
+  - `experiential` — first-hand or narrated lived experience
+  - `authority` — statement from a recognized expert
+  - `silence` — absence of evidence is itself the evidence
+- **subtype**: domain-specific label (e.g., "ayah", "hadith_sahih", "hadith_hasan", "athar", "ijma", "qiyas", "RCT", "statute", "anecdote")
+- **ref**: citation reference (e.g., "البقرة:282", "صحيح البخاري", "Smith 2020")
+- **snippet**: first ~15 words of the evidence text
+- **strength**: definitive | strong | moderate | weak | contested
+- **warrant**: 1 sentence explaining WHY this evidence supports THIS claim
+
+Add tags: `backing/{category}` (one per category used) and `strength/{highest strength}`.
+
+How to recognize evidence in text:
+- "قال الله تعالى" / "قال تعالى" → textual (ayah)
+- "قال رسول الله" / "عن النبي" / "روى" → transmitted (hadith)
+- "أجمع العلماء" / "لا خلاف في" / "اتفقوا" → consensus (ijma)
+- "قياساً على" / "بجامع" / "العلة" → analogical (qiyas)
+- "studies show" / "N%" / "data indicates" → empirical
+- "والدليل من جهة المعنى" / "therefore" / "لأن" → rational
+- "I once" / "حدثني" / "رأيت" → experiential
+- "قال ابن عباس" / "قال مالك" / "according to" → authority (athar)
+- "لم يرد في ذلك نص" / "no evidence exists" → silence
+
+Evidence chains: if one piece of evidence builds on another (e.g., a hadith that specifies a general ayah), add `depends_on: [index]` pointing to the prior backing entry's position (0-based).
+
+Claims with no identifiable evidence get no `backing:` field and no `backing/` or `strength/` tags.
+
+## Counter-arguments (rebuttals)
+
+When the author presents a counter-argument and answers it (e.g., "فإن قال قائل..."):
+- Extract the counter-argument as a separate claim with `role/rebuttal`
+- Add `rebuts: "[[claim being challenged]]"` to frontmatter
+- Add tag `rebuttal/defeated` (author answered it) or `rebuttal/acknowledged` (author concedes partially)
+- If the author provides a response, note it in the body text
 
 ## Rules
 

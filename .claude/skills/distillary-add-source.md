@@ -46,9 +46,15 @@ Launch `extract` agents with:
 
 ### 3. Dedupe + entities (parallel haiku agents)
 
-### 4. Group + pyramid (opus agents)
+### 4. Entity-link (haiku agent)
 
-### 5. Link (haiku agents)
+Add [[wikilinks]] to claim bodies using the entity files from step 3. Write output to `linked_claims.md`.
+
+**This must complete BEFORE grouping** — the group agent must receive linked claims so that atom files written to the vault already contain wikilinks.
+
+### 5. Group + pyramid (opus agents)
+
+**Input: `linked_claims.md`** (NOT `deduped_claims.md`). This ensures every atom file written to the vault has entity wikilinks in its body text.
 
 ### 6. Assemble into brain
 
