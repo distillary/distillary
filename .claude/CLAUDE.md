@@ -99,6 +99,7 @@ This enables filtering by source type, author, date, and medium.
 | `bridge-builder` | haiku | Create unified entity notes from mapping |
 | `analytics` | haiku | Generate cross-source reports: statistical profiles, entity overlap, set operations, graph analytics |
 | `annotate` | haiku | Help user write annotations in proper format |
+| `research` | opus | Deep research agent — iteratively searches brain to answer questions, checks evidence quality, cross-references sources |
 | `explore` | opus | Suggest what to investigate based on gaps + interests |
 
 ### Rules (enforced in all agents)
@@ -120,6 +121,7 @@ This enables filtering by source type, author, date, and medium.
 | `distillary-publish` | "publish", "share" | Git + Quartz deploy + agent.json generation |
 | `distillary-retrieval` | "query brain", "look up" | **Shareable** — give to any agent to query a published brain via URL |
 | `distillary-use-brain` | "explore brain", "learn about" | Full navigation guide — 6 strategies by question type |
+| `distillary-research` | "research", "investigate", "ابحث", "ما رأي" | Deep research — iterative search with evidence evaluation |
 | `obsidian-bases` | "create base" | Analytical .base files |
 | `quartz-rendering` | "add diagram", "add callout" | What Quartz can render: callouts, Mermaid, wikilinks, code, LaTeX, embeds |
 | `docs-writing` | "write docs", "improve docs" | How to write good docs: text first, diagrams support, callouts highlight |

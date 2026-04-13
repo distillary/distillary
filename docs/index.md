@@ -24,6 +24,11 @@ Turn any knowledge source into a navigable, shareable brain.
 - [Cross-source analysis](guides/cross-source.md) — bridges, comparisons, entity mapping
 - [Obsidian Bases](guides/bases.md) — analytical database views
 
+## Advanced features
+
+- [Argumentation layer](guides/argumentation-layer.md) — how Distillary captures evidence (backing, warrants, strength, rebuttals) using 9 universal categories
+- [Deep research agent](guides/deep-research.md) — iterative question-answering with 6 core strategies + 10 advanced discovery methods
+
 ## Design
 
 - [Architecture](guides/architecture.md) — agents, skills, utilities, brain structure
