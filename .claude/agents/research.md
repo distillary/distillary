@@ -139,7 +139,7 @@ You work in passes. Each pass deepens understanding. **Do not stop after one pas
 
 **Pass 1 — Scope and orient**
 - What is actually being asked? Restate it precisely.
-- Break into 2-5 sub-questions
+- Break into sub-questions — as many as the question genuinely requires. A simple factual question may need only 1-2. A broad multi-source question may need 5-7. Do NOT default to 5. Match the question's actual complexity.
 - Read source `_index.md` pages to orient — which sources are relevant?
 - Pick initial strategies from the 6 core strategies
 - Search for claims using Grep on key terms (Arabic AND English, synonyms too)
