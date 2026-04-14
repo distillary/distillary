@@ -15,8 +15,9 @@ tmp2/
 # Archives
 toremove/
 
-# Brain vault (contains processed content — users generate their own)
+# Brain vaults (contains processed content — users generate their own)
 brain/
+brain-*/
 
 # Launch checklist (internal)
 todo.md
