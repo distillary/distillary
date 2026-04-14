@@ -4,12 +4,12 @@ title: Distillary Documentation
 
 # Distillary Docs
 
-Turn any knowledge source into a navigable, shareable brain.
+Turn any knowledge source into a navigable, verifiable, shareable brain.
 
 ## Getting started
 
-- [Quick start](guides/quick-start.md) — process your first book in 15 minutes
-- [How it works](guides/how-it-works.md) — the pipeline, agents, and note format
+- [Quick start](guides/quick-start.md) — process your first source in 15 minutes
+- [How it works](guides/how-it-works.md) — the 11-step pipeline, note format v4.0, and cross-source bridges
 - [Publishing](guides/publishing.md) — share your brain as a website
 
 ## For agents
@@ -19,17 +19,18 @@ Turn any knowledge source into a navigable, shareable brain.
 
 ## Guides
 
-- [Adding sources](guides/adding-sources.md) — books, videos, podcasts, articles
+- [Adding sources](guides/adding-sources.md) — books, videos, podcasts, articles, regulatory frameworks
 - [Annotating](guides/annotating.md) — adding your own voice to the brain
 - [Cross-source analysis](guides/cross-source.md) — bridges, comparisons, entity mapping
 - [Obsidian Bases](guides/bases.md) — analytical database views
 
 ## Advanced features
 
-- [Argumentation layer](guides/argumentation-layer.md) — how Distillary captures evidence (backing, warrants, strength, rebuttals) using 9 universal categories
-- [Deep research agent](guides/deep-research.md) — iterative question-answering with 6 core strategies + 10 advanced discovery methods
+- [Argumentation layer](guides/argumentation-layer.md) — how evidence is captured using 9 universal backing categories, warrants, and strength grades
+- [Deep research agent](guides/deep-research.md) — iterative question-answering with 6 core strategies + 10 advanced discovery methods + Method K source verification
+- [Source verification](guides/source-verification.md) — tracing claims back to exact source passages for fact-checking (optional — user chooses per source)
 
 ## Design
 
-- [Architecture](guides/architecture.md) — agents, skills, utilities, brain structure
+- [Architecture](guides/architecture.md) — 16 agents, 9 skills, 11-step pipeline, vault structure, design decisions
 - [Reviews](reviews/) — honest self-reflections on what works and what doesn't

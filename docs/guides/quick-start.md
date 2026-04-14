@@ -4,13 +4,13 @@ title: Quick Start
 
 # Quick start
 
-Process your first book into a brain vault in ~15 minutes.
+Process your first source into a brain vault in ~15 minutes.
 
 ## Prerequisites
 
 - [Claude Code](https://claude.ai/code) — CLI, desktop, or web
-- Python 3.11+ with `pip install pyyaml ebooklib beautifulsoup4`
-- An EPUB, PDF, or TXT file of the book
+- Python 3.11+ with `pip install pyyaml ebooklib beautifulsoup4 langchain-community`
+- An EPUB, PDF, or TXT file
 
 ## Steps
 
@@ -19,12 +19,12 @@ Process your first book into a brain vault in ~15 minutes.
 ```bash
 git clone https://github.com/distillary/distillary.git
 cd distillary
-pip install pyyaml ebooklib beautifulsoup4
+pip install pyyaml ebooklib beautifulsoup4 langchain-community
 ```
 
-### 2. Add your book
+### 2. Add your source
 
-Put your book file in `books/`:
+Put your file in `books/`:
 
 ```bash
 cp ~/Downloads/my-book.epub books/
@@ -32,18 +32,26 @@ cp ~/Downloads/my-book.epub books/
 
 ### 3. Open in Claude Code
 
-Open the `distillary/` folder in Claude Code. Say:
+Open the project folder in Claude Code. Say:
 
 > Add books/my-book.epub to my brain. Title: "My Book", Author: "Author Name", Published: 2024
 
-Claude reads the `distillary-add-source` skill and runs the full pipeline:
+Claude will ask:
 
-- 16 parallel haiku agents extract claims (~2 min)
+> **Include source chunks for fact-checking?**
+> - **Yes** — any claim can be traced back to exact source text (recommended for public domain / open access)
+> - **No** — claims only, no source text stored (for copyrighted material)
+
+Then the pipeline runs:
+
+- Split text into chunks, save permanently if chosen (~30 sec)
+- 16 parallel haiku agents extract claims with backing + passages (~2 min)
 - Haiku agents deduplicate and extract entities (~2 min)
+- Haiku agent adds wikilinks to claim bodies (~1 min)
 - Opus agents group claims into pyramid (~5 min)
 - Haiku agents find connections (~2 min)
-- Python assembles the vault (~1 min)
-- Doctor fixes issues and writes suggestions
+- Optional: verify agent spot-checks claims against source chunks (~1 min)
+- Python assembles the vault, fixes links, runs doctor
 
 ### 4. Open in Obsidian
 
@@ -55,27 +63,46 @@ Open `brain/` as a vault in Obsidian.
 
 ### 5. Explore
 
-- Click the root thesis to read the book's argument
+- Click the root thesis to read the source's argument
 - Follow `[[wikilinks]]` to drill deeper
-- Check entity pages for concept hubs with backlinks
+- Check entity pages — their `Referenced by` sections are your search engine
 - Open `.base` files for analytical database views
 - Read `_suggestions.md` for ghost concepts to explore
+- Check `backing:` fields on claims to see evidence type and strength
+- If chunks are stored, check `passages:` to read the exact source text
 
-### 6. Add a second book
+### 6. Add a second source
 
 Say:
 
 > Add books/second-book.epub to my brain
 
-The pipeline runs again. This time, after assembly, Claude also:
-- Maps concepts between both books (concept-mapper agent)
+The pipeline runs again. After assembly, Claude also:
+- Maps concepts between both sources (concept-mapper agent)
 - Creates bridge entities in `brain/shared/concepts/`
-- Writes a comparison essay in `brain/shared/analytics/`
+- Runs analytics comparing both sources
+- Updates the brain index
 
 Your brain now has two sources connected by bridge concepts.
 
+### 7. Ask a question
+
+Say:
+
+> Research: what do both sources say about integrity?
+
+The deep research agent:
+- Searches both sources
+- Follows backlink chains
+- Checks evidence quality (backing type + strength)
+- Optionally verifies claims against source chunks
+- Writes a structured answer with citations and confidence rating
+
 ## What's next
 
-- [Add your own annotations](annotating.md)
-- [Publish your brain](publishing.md)
-- [Understand the architecture](architecture.md)
+- [How it works](how-it-works.md) — the full pipeline and note format
+- [Argumentation layer](argumentation-layer.md) — how evidence is captured
+- [Deep research agent](deep-research.md) — advanced question-answering
+- [Source verification](source-verification.md) — fact-checking claims against source text
+- [Publishing](publishing.md) — share your brain as a website
+- [Architecture](architecture.md) — agents, skills, utilities

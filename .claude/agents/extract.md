@@ -34,7 +34,7 @@ proposition: "[subject → relationship → object, lowercase]"
 source_ref: "[chapter or section where this claim appears]"
 published: [year provided by user]
 extracted_by: claude-haiku-4.5
-prompt_version: v3.0
+prompt_version: v4.0
 backing:
   - category: [textual|transmitted|consensus|analogical|empirical|rational|experiential|authority|silence]
     subtype: "[domain-specific label]"
@@ -42,6 +42,11 @@ backing:
     snippet: "[first ~15 words of evidence text]"
     strength: [definitive|strong|moderate|weak|contested]
     warrant: "[1 sentence: why this evidence supports this claim]"
+passages:
+  - chunk: "[chunk filename, e.g., chunk_01.txt]"
+    lines: [start, end]
+    snippet: "[first ~15 words of the source passage]"
+confidence: [exact|synthesized|inferred]
 ---
 
 [2-4 sentence statement. No [[wikilinks]].]
@@ -84,6 +89,32 @@ How to recognize evidence in text:
 Evidence chains: if one piece of evidence builds on another (e.g., a hadith that specifies a general ayah), add `depends_on: [index]` pointing to the prior backing entry's position (0-based).
 
 Claims with no identifiable evidence get no `backing:` field and no `backing/` or `strength/` tags.
+
+## Source passages (for fact-checking)
+
+For each claim, record which passages in the source text support it:
+
+```yaml
+passages:
+  - chunk: "chunk_01.txt"      # the chunk file this came from
+    lines: [115, 118]          # approximate line range
+    snippet: "first ~15 words of the passage..."
+  - chunk: "chunk_03.txt"      # claims can reference multiple passages
+    lines: [42, 48]
+    snippet: "first ~15 words of another passage..."
+confidence: exact|synthesized|inferred
+```
+
+Rules:
+- `chunk`: the filename of the chunk you're reading (provided by the user)
+- `lines`: approximate start/end line in the chunk — the reader will check +/- 5 lines
+- `snippet`: ~15 words from the passage — enough to find it, NOT the full text. **Copy words as they appear in the chunk, but join across line breaks** (PDF text often wraps mid-sentence — write the snippet as continuous text even if the chunk has a newline in the middle)
+- List ALL passages that support this claim (1-5 entries)
+- `confidence`:
+  - `exact` — one passage directly states what the claim asserts
+  - `synthesized` — claim combines multiple passages (all support it, none states it alone)
+  - `inferred` — claim is derived through reasoning, not directly stated in any passage
+- Do NOT include the full passage text — only the snippet
 
 ## Counter-arguments (rebuttals)
 

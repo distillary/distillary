@@ -6,79 +6,124 @@ title: How It Works
 
 ## The insight
 
-Every source (book, video, article) has an argument structure: a central thesis supported by a hierarchy of claims. Distillary makes that structure explicit and navigable.
+Every source (book, video, article, regulatory framework) has an argument structure: a central thesis supported by a hierarchy of claims backed by evidence. Distillary makes that structure explicit, navigable, and verifiable.
 
-## The pipeline
+## The pipeline (11 steps)
 
 ```
-Source text
+Source text (book, PDF, video transcript, article)
   ↓ split into ~20KB chunks
-  ↓ 16 parallel haiku agents → atomic claims (one assertion each)
-  ↓ haiku agents → deduplicate
-  ↓ haiku agent → extract entities (people, concepts, companies)
+  ↓ save chunks permanently to brain/sources/{slug}/chunks/ (optional — user chooses)
+  ↓ parallel haiku agents → atomic claims with backing + passages
+  ↓ haiku agent → deduplicate (merge passages lists)
+  ↓ haiku agent → extract entities (people, concepts, frameworks)
+  ↓ haiku agent → add [[wikilinks]] to claim bodies (preserve passages in frontmatter)
   ↓ opus agents → group claims into argumentative clusters (layer 1)
-  ↓ opus agent → build clusters into chapter groups (layer 2)
-  ↓ opus agent → build single root thesis (layer 3)
+  ↓ opus agent → build clusters into structure claims (layer 2) + root thesis (layer 3)
   ↓ haiku agents → find tensions, patterns, evidence between claims
-  ↓ haiku agent → add [[wikilinks]] to entity references
-  ↓ Python → assemble vault, fix links, build entity hubs
-  ↓ Python → doctor (fix orphans, discover ghosts, write suggestions)
+  ↓ haiku agent → verify sample of claims against source chunks (optional)
+  ↓ Python → assemble vault, fix links, build entity hubs, doctor
   ↓ opus agent → map concepts to other sources in the brain
   ↓ haiku agent → build bridge entities for same-concept pairs
 Brain vault
 ```
 
+Before starting, the system asks:
+
+> **Include source chunks for fact-checking?**
+> - **Yes** — stores extracted text in the brain. Any claim can be verified back to the exact source passage. Best for public domain, open access, regulatory documents.
+> - **No** — extracts claims but discards source text. Claims still have passage references (snippets + section refs) as reading aids. Best for copyrighted books, proprietary documents.
+
 ## The pyramid
 
 ```
 Layer 3: Root thesis (1 note)
-  "The Lean Startup engineers sustainable businesses through validated learning"
+  "Essential Cybersecurity Controls protect Saudi national interests
+   through layered mandatory requirements"
     ↓
-Layer 2: Clusters (~8 notes)
-  "Pivots and growth engines drive course correction"
-  "Small batches accelerate the feedback loop"
-  "Innovation accounting replaces vanity metrics"
+Layer 2: Structure (~2-3 notes)
+  "Governance-led defense and resilience"
+  "Practical application of controls across domains"
     ↓
-Layer 1: Structure (~50 notes)
-  "A pivot is a structured strategic hypothesis"
-  "Customer segment pivots redefine the audience"
+Layer 1: Clusters (~5-8 notes)
+  "Identity verification and privilege control"
+  "Network segmentation and data encryption"
     ↓
-Layer 0: Atoms (~300 notes)
-  "Zappos tested demand by posting shoe photos before buying inventory"
-  "IMVU's IM interop assumption was wrong — users wanted to meet strangers"
+Layer 0: Atoms (~50-300 notes)
+  "MFA for remote access" [ECC 2-2-3-2, backed by regulatory mandate]
+  "Encryption per NCS-1:2020 advanced level" [CCC 2-7-P-1-1, definitive strength]
 ```
 
-Each layer is a summary of the layer below. Drill down for detail. Drill up for context.
+Each layer summarizes the layer below. Drill down for detail + evidence. Drill up for context.
 
-## The note format
+## The note format (v4.0)
 
 ```yaml
 ---
 tags:
   - type/claim/atom
   - priority/core
-  - certainty/argued
+  - certainty/established
   - stance/endorsed
-  - domain/methodology
-  - role/argument
-  - source/ries-lean-startup
+  - domain/cybersecurity
+  - role/requirement
+  - source/ecc-2024
+  - backing/textual
+  - strength/definitive
 kind: claim
 layer: 0
-proposition: "validated learning → measures progress → better than vanity metrics"
-source_ref: "Chapter 7: Measure"
+proposition: "remote access → must use multi-factor authentication → for all users"
+source_ref: "ECC 2-2-3-2"
+published: 2024
+extracted_by: claude-haiku-4.5
+prompt_version: v4.0
+backing:
+  - category: textual
+    subtype: regulatory_mandate
+    ref: "ECC 2-2-3-2"
+    snippet: "Multi-factor authentication for remote access"
+    strength: definitive
+    warrant: "Prevents unauthorized access even if credentials are compromised"
+passages:
+  - chunk: "chunk_01.txt"
+    lines: [117, 118]
+    snippet: "Multi-factor authentication for remote access.2-2-3-2"
+confidence: exact
 ---
 
-Validated learning is empirically demonstrated progress through experiments
-that test specific hypotheses about the business. Unlike traditional metrics
-that measure output, validated learning measures whether customers actually
-want what you're building.
+MFA must be implemented for all remote access to organizational systems.
+No single-factor remote access permitted.
 
-## Related
-
-Parent: [[Innovation accounting replaces vanity metrics]]
-- 📊 Supported by: [[Cohort analysis reveals true effectiveness]]
-- ⚡ Tension with: [[Speed of shipping matters more than what you learn]]
+Parent: [[Identity verification and privilege control prevent unauthorized system access]]
 ```
+
+### What each field does
+
+| Field | Purpose |
+|---|---|
+| `proposition` | The claim in canonical form (subject → relationship → object) |
+| `source_ref` | Where in the source (chapter, section, control ID) |
+| `backing` | The evidence: what type, how strong, why it supports the claim |
+| `passages` | Pointers to exact source text in chunk files (for fact-checking) |
+| `confidence` | How directly the source text states the claim (exact / synthesized / inferred) |
+
+### The 9 backing categories
+
+Every piece of evidence fits one of 9 universal categories:
+
+| Category | What it means | Examples |
+|---|---|---|
+| **textual** | Direct citation from authoritative text | Quranic verse, statute, primary source |
+| **transmitted** | Report through chain of people | Hadith, witness testimony, reported data |
+| **consensus** | Collective expert agreement | Scholarly ijma, scientific consensus, legal precedent |
+| **analogical** | Extension from known to unknown | Qiyas, legal analogy, comparative study |
+| **empirical** | Direct observation/measurement | Experiment, RCT, statistic |
+| **rational** | Logical deduction/induction | Proof, syllogism, cost-benefit analysis |
+| **experiential** | First-hand lived experience | Case study, anecdote |
+| **authority** | Recognized expert statement | Scholar opinion, expert testimony |
+| **silence** | Absence of evidence IS evidence | No text → ijtihad permitted |
+
+These work across any domain — Islamic jurisprudence, cybersecurity, academic research, business, philosophy, law.
 
 ## Tag dimensions
 
@@ -88,32 +133,63 @@ Parent: [[Innovation accounting replaces vanity metrics]]
 | `certainty/` | How solid is the evidence? |
 | `stance/` | Does the author endorse, criticize, or neutrally present this? |
 | `domain/` | What field is this about? |
-| `role/` | Is this a fact, argument, prediction, definition, example, or methodology? |
+| `role/` | Is this a fact, argument, definition, requirement, rebuttal, or methodology? |
 | `source/` | Which source does this come from? |
+| `backing/` | What type of evidence backs this? (textual, transmitted, etc.) |
+| `strength/` | How strong is the evidence? (definitive, strong, moderate, weak) |
 
 ## Cross-source bridges
 
 When two sources discuss the same concept under different names, a bridge entity unifies them:
 
 ```
-Lean Startup: "Vanity Metrics"  ←→  Mom Test: "Compliments"
-                     ↓
-           Bridge: "False Signals"
-           (aliases both names, backlinks from both sources)
+ECC: "Access Control"  ←→  NCNICC: "التحقق من الهوية"
+                ↓
+     Bridge: "Identity & Access Management"
+     (aliases both names, backlinks from both frameworks)
 ```
 
-The bridge page shows both perspectives and every claim from both sources that discusses the concept. One fetch = complete cross-source answer.
+The bridge page shows both perspectives and every claim from both sources. One read = complete cross-source answer.
+
+## Source verification
+
+Claims can be traced back to exact source text:
+
+```
+Claim: "MFA for remote access"
+  → passages: chunk_01.txt, lines 117-118
+  → open chunk_01.txt → read line 117
+  → "Multi-factor authentication for remote access.2-2-3-2"
+  → VERIFIED — exact match
+```
+
+This works when chunks are stored. For copyrighted sources (chunks not stored), passages still provide snippets and section references as reading aids.
 
 ## Agent navigation
 
-Entity pages are question-answering hubs. Their backlinks are the answer to "what does this brain know about X?"
+Entity pages are question-answering hubs. Their backlinks ARE the answer to "what does this brain know about X?"
 
 ```
-Question: "How do I validate demand?"
-  → agent.json (see bridges)
-  → "Real Signals" bridge page
-  → Lean Startup: actionable metrics with causation
-  → Mom Test: commitment that costs time/money/reputation
-  → 36 + 26 backlinks for specific evidence
-  = 2 fetches, multi-source answer
+Question: "What are the MFA requirements?"
+  → find entity: "Multi-Factor Authentication"
+  → read its Referenced-by section
+  → ECC 2-2-3-2: MFA for remote access
+  → CCC 2-2-P-1-3: MFA for privileged cloud users
+  → NCNICC 2-2-1-2: MFA for email and external apps
+  = 1 entity page, multi-source answer with control IDs
 ```
+
+## Deep research
+
+For complex questions, the research agent iterates through multiple passes:
+
+1. Scope the question → break into sub-questions
+2. Search claims → check backing quality
+3. Follow backlinks → entity → claims → entity → claims (3+ hops)
+4. Walk the pyramid → root to atom for context
+5. Cross-reference sources → check bridges for agreement/conflict
+6. Advanced methods → warrant mining, analogical transfer, rebuttal reconstruction
+7. Source verification → read chunks to confirm claims (Method K)
+8. Report with evidence, confidence rating, and gaps
+
+See [Deep research agent](deep-research.md) for the full methodology.

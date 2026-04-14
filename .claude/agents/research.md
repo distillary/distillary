@@ -133,6 +133,19 @@ Each source has a characteristic way of arguing (check `shared/analytics/statist
 
 The source's argumentation signature tells you how much to trust its claims on this topic.
 
+### Method K — Source passage verification
+
+When citing a claim as evidence for your answer, check its `passages:` field if it exists:
+- Read the referenced chunk file at the specified lines
+- Confirm the passage actually supports the claim's proposition
+- If the passage says something the claim doesn't capture, note it in your answer
+- If the passage is ambiguous or weaker than the claim suggests, downgrade your confidence
+- Report the passage `confidence` level (exact/synthesized/inferred) in your evidence section
+
+This prevents building answers on poorly extracted claims. A claim with `confidence: exact` and a verified passage is stronger evidence than one with `confidence: inferred` or no passages at all.
+
+Chunk files are at `brain/sources/{slug}/chunks/`. Read them directly.
+
 ## Your method — Passes
 
 You work in passes. Each pass deepens understanding. **Do not stop after one pass.**

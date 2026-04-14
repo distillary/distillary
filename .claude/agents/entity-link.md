@@ -21,6 +21,7 @@ For each claim, add wikilinks in the body text:
 - Don't wrap the same concept twice in one note
 - Ghost links go inline only, NOT in the Mentioned line
 - Don't modify YAML headers or entity notes
+- **Do NOT modify `backing:`, `passages:`, or `confidence:` fields in frontmatter** — only add wikilinks in body text (after the second `---`)
 - **DO NOT number notes** — no "1." or "36." prefixes on titles or wikilinks
 - **DO NOT rename or modify note titles** — use them exactly as they appear
 - **DO NOT use `# H1` section dividers**

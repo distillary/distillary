@@ -18,6 +18,16 @@ Add any knowledge source to `brain/sources/{slug}/` and connect it to everything
 | Paper | PDF | `extract_text("paper.pdf")` |
 | Lecture | PDF/markdown | `extract_text()` or read directly |
 
+## Before starting: Ask the user
+
+Before processing, ask:
+
+> **Include source chunks for fact-checking?**
+> - **Yes** — stores the extracted text in the brain. Enables verifying any claim back to the exact source passage. Best for: public domain, open access, regulatory documents, your own notes.
+> - **No** — extracts claims but does not store source text. Claims still have passage references (snippets + section refs) but cannot be verified against source text. Best for: copyrighted books, proprietary documents, paid research papers.
+
+Set `chunks_mode` based on the answer: `"full"` or `"references_only"`.
+
 ## Pipeline (same for all source types)
 
 ### 1. Get text
@@ -25,9 +35,32 @@ Add any knowledge source to `brain/sources/{slug}/` and connect it to everything
 For books/PDFs:
 ```python
 from distillary.extraction.loader import extract_text, split_text
+from pathlib import Path
+
 text = extract_text("path/to/source")
 chunks = split_text(text, 20000)
+
+# Save chunks based on user's choice
+if chunks_mode == "full":
+    chunk_dir = Path("brain/sources/{slug}/chunks")
+    chunk_dir.mkdir(parents=True, exist_ok=True)
+    for i, chunk in enumerate(chunks):
+        (chunk_dir / f"chunk_{i:02d}.txt").write_text(chunk, encoding="utf-8")
+# If "references_only": chunks stay in tmp/ for extraction only, then deleted
 ```
+
+Set in `_source.md`:
+```yaml
+chunks_available: true    # if chunks_mode == "full"
+chunks_reason: "public_domain"
+
+# OR
+
+chunks_available: false   # if chunks_mode == "references_only"
+chunks_reason: "copyrighted"  # or "proprietary"
+```
+
+The extract agent always receives chunks (it needs them to extract claims). The difference is whether chunks are kept permanently in the brain or discarded after extraction.
 
 For YouTube:
 ```bash

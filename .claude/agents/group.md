@@ -50,6 +50,7 @@ For each CHILD, add to its body: `Parent: [[Parent's title]]`
 - **DO NOT use `# H1` section dividers** — only use `## Title` for note boundaries
 - **Parent line format** — write `Parent: [[Title]]` NOT `Parent: "[[Title]]"` (no quotes)
 - **Each child note must include its FULL original body text** followed by the Parent line — do not strip content
+- **Preserve `backing:` and `passages:` fields exactly** — copy them unchanged from input to output. These are critical for fact-checking and must not be modified or dropped.
 - **Keep titles under 150 characters** — use `proposition:` for the full canonical form
 
 **DO NOT write a "CHILD UPDATES" or "Child-Parent Assignments" section.** Instead, put the `Parent: [[X]]` line directly inside each child note's body. The output should be ONLY the notes — no summary blocks at the end.

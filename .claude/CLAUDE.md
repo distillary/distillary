@@ -25,6 +25,7 @@ brain/
   *.base                       — analytical Bases
   sources/                     — processed sources (agent-generated)
     {source-slug}/
+      chunks/                  — source text chunks for fact-checking (OPTIONAL — omit for copyrighted material)
       claims/{atoms,structure,clusters}
       entities/{concepts,people,companies,works}
       _source.md               — metadata: type, author, url, date
@@ -68,10 +69,12 @@ url: ""
 source_slug: ries-lean-startup
 ingested: 2026-04-07
 extracted_by: claude-haiku-4.5
+chunks_available: true       # false for copyrighted sources
+chunks_reason: "public_domain"  # or "copyrighted", "proprietary", "excluded_for_publishing"
 ---
 ```
 
-This enables filtering by source type, author, date, and medium.
+This enables filtering by source type, author, date, and medium. The `chunks_available` field tells agents whether fact-checking against source text is possible for this source.
 
 ## Agents
 
@@ -79,20 +82,21 @@ This enables filtering by source type, author, date, and medium.
 
 | Agent | Model | Job |
 |---|---|---|
-| `extract` | haiku | Text chunk → atomic claims with `source_ref` |
-| `dedupe` | haiku | Merge duplicate claims |
+| `extract` | haiku | Text chunk → atomic claims with `source_ref`, `backing`, and `passages` |
+| `dedupe` | haiku | Merge duplicate claims (combine `passages` lists, preserve `backing`) |
 | `entities` | haiku | Identify people, concepts, companies |
-| `entity-link` | haiku | Add `[[wikilinks]]` to claim bodies |
+| `entity-link` | haiku | Add `[[wikilinks]]` to claim bodies (preserve `passages` + `backing` in frontmatter) |
 | `link` | haiku | Find tensions, patterns, evidence |
-| `group` | opus | Cluster claims into parents (L0→L1) |
+| `group` | opus | Cluster claims into parents (L0→L1) — preserve `backing` + `passages` on atoms |
 | `pyramid` | opus | Build hierarchy to root (L1→L2→L3) |
+| `verify` | haiku | Fact-check claims against source chunks via `passages` field |
 | `source-index` | haiku | Write compelling source index page with narrative, not mechanical tables |
 
 ### Brain-level operations
 
 | Agent | Model | Job |
 |---|---|---|
-| `doctor` | haiku | Fix orphans, ghost links, suggest explorations |
+| `doctor` | haiku | Fix orphans, ghost links, suggest explorations, flag claims missing `passages` |
 | `combine` | haiku | Merge sources into brain structure |
 | `concept-mapper` | opus | Find same-concept-different-name pairs across sources |
 | `compare` | opus | Write synthesis essay comparing sources |
@@ -109,6 +113,8 @@ This enables filtering by source type, author, date, and medium.
 - **Parent format**: `Parent: [[Title]]` (no quotes)
 - **Keep titles under 150 characters**
 - **Preserve full body text** when editing
+- **Preserve `backing` and `passages` fields** — any agent that writes or modifies atom claims must keep these fields intact. Dedupe merges them; all others copy them unchanged.
+- **Chunks are optional but recommended** — saved to `brain/sources/{slug}/chunks/` for fact-checking. For copyrighted or proprietary sources, chunks can be omitted (claims still work without them — `passages` field becomes unverifiable but the claim itself is still valid). When publishing a brain, exclude `chunks/` directories to avoid sharing copyrighted source text. The `passages` field on claims remains useful as a reading reference even without the chunk files.
 
 ## Skills
 
@@ -147,17 +153,27 @@ Old API pipeline (Gemini/Anthropic/OpenAI) is in `deprecated/`.
 ### Add a source to the brain
 
 ```
-1. Extract + split text (python)
-2. Extract claims — parallel extract agents (haiku)
-3. Dedupe + entities — parallel haiku agents
-4. Entity-link — haiku agent (add [[wikilinks]] to claim bodies → linked_claims.md)
-5. Group + pyramid — opus agents (**input: linked_claims.md**, not deduped)
+1. Extract + split text (python) → save chunks to brain/sources/{slug}/chunks/
+2. Extract claims with backing + passages — parallel extract agents (haiku)
+3. Dedupe (merge passages lists) + entities — parallel haiku agents
+4. Entity-link — haiku agent (add [[wikilinks]] to bodies, preserve passages/backing in frontmatter → linked_claims.md)
+5. Group + pyramid — opus agents (**input: linked_claims.md**, preserve passages/backing on atoms)
 6. Link — parallel haiku agents (cross-claim tensions, patterns)
-6. Assemble into brain/sources/{slug}/ (python: fix_vault)
-7. Post-process entire brain (python: reinforce + hubs + doctor)
-8. Auto-bridge — concept-mapper (opus) + bridge-builder (haiku)
-9. Update brain/_index.md
+7. Verify (optional) — haiku agent fact-checks sample of claims against chunks
+8. Assemble into brain/sources/{slug}/ (python: fix_vault)
+9. Post-process entire brain (python: reinforce + hubs + doctor flags missing passages)
+10. Auto-bridge — concept-mapper (opus) + bridge-builder (haiku)
+11. Update brain/_index.md
 ```
+
+**CRITICAL: Always use agent definition files.** When launching any agent, point it to its `.claude/agents/{name}.md` file:
+
+```
+prompt="Read the agent instructions from .claude/agents/group.md FIRST, then follow them precisely.
+[specific task details]"
+```
+
+DO NOT rewrite agent instructions inline. The agent files contain tested rules (wikilinks in body text, Parent format, title length, etc.) that get lost when instructions are rewritten from memory. Agent files are the source of truth.
 
 ### Add your own notes
 
@@ -175,13 +191,29 @@ Say "publish my brain" → Quartz static site on GitHub Pages with the full brai
 
 ```yaml
 tags: [type/claim/atom, priority/core, certainty/argued,
-       stance/endorsed, domain/X, role/argument, source/slug]
+       stance/endorsed, domain/X, role/argument, source/slug,
+       backing/textual, strength/strong]
 kind: claim
 layer: 0
 proposition: "subject → relationship → object"
 source_ref: "Chapter 3: Steer"
 published: 2011
 extracted_by: claude-haiku-4.5
+backing:
+  - category: textual|transmitted|consensus|analogical|empirical|rational|experiential|authority|silence
+    subtype: "domain-specific label"
+    ref: "citation"
+    snippet: "first ~15 words"
+    strength: definitive|strong|moderate|weak|contested
+    warrant: "why this evidence supports this claim"
+passages:
+  - chunk: "chunk_01.txt"
+    lines: [10, 15]
+    snippet: "first ~15 words of the source passage"
+  - chunk: "chunk_03.txt"
+    lines: [42, 48]
+    snippet: "first ~15 words of another passage"
+confidence: exact|synthesized|inferred
 ```
 
 ## Key design decisions
@@ -194,3 +226,5 @@ extracted_by: claude-haiku-4.5
 - **`source/` tag on everything** — distinguishes sources, enables filtering
 - **`source/cross-vault` tag** — marks bridge concepts that span sources
 - **`_source.md` per source** — metadata: type, author, url, date for filtering and attribution
+- **Chunks enable fact-checking (optional)** — `passages` field on claims references chunk files + line ranges + snippets. Full text stays in chunks, claims stay clean. For copyrighted sources, chunks can be excluded from publishing — the `passages` field still serves as a reading reference (chapter, page, section). For open/public domain sources, chunks provide full verifiability.
+- **`backing` captures argumentation** — 9 universal categories (textual, transmitted, consensus, analogical, empirical, rational, experiential, authority, silence) with warrant explaining WHY evidence supports the claim
