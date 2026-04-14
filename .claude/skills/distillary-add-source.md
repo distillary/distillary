@@ -30,12 +30,50 @@ The copyright question only matters at **publish time** (see `distillary-publish
 
 For books/PDFs:
 ```python
-from distillary.extraction.loader import extract_text, split_text
+from distillary.extraction.loader import extract_text, split_text, ScannedPDFError
 from pathlib import Path
 
-text = extract_text("path/to/source")
-chunks = split_text(text, 20000)
+try:
+    text = extract_text("path/to/source")
+    chunks = split_text(text, 20000)
+except ScannedPDFError as e:
+    # Scanned PDF — fall through to OCR workflow below
+    print(f"Scanned PDF: {e.page_count} pages, needs OCR")
+```
 
+**If `ScannedPDFError` is raised**, the PDF is image-based. Use the OCR workflow:
+
+```python
+from distillary.extraction.loader import pdf_to_images, split_text
+from pathlib import Path
+
+# 1. Convert PDF pages to images
+image_paths = pdf_to_images("path/to/source", "tmp/{slug}-pages", dpi=200)
+
+# 2. OCR with Haiku vision — launch parallel agents, ~10 pages per batch
+#    Each agent reads page images with the Read tool and extracts Arabic/English text.
+#    Write each batch to tmp/{slug}-ocr/batch_{NN}.txt
+#    IMPORTANT: Tell agents to skip watermarks and preserve paragraph breaks.
+
+# 3. Combine OCR batches into full text
+ocr_dir = Path("tmp/{slug}-ocr")
+full_text = ""
+for batch in sorted(ocr_dir.glob("batch_*.txt")):
+    full_text += batch.read_text(encoding="utf-8") + "\n"
+
+chunks = split_text(full_text, 20000)
+```
+
+**OCR agent prompt template** (launch ~10 pages per Haiku agent in parallel):
+```
+You are an OCR agent. Read each page image and extract ALL text exactly as written.
+Preserve paragraph breaks. Skip watermarks. Output ONLY the extracted text.
+Separate pages with: --- PAGE X ---
+Write to: tmp/{slug}-ocr/batch_{NN}.txt
+```
+
+Then save chunks normally:
+```python
 # Always save chunks permanently
 chunk_dir = Path("brain/sources/{slug}/chunks")
 chunk_dir.mkdir(parents=True, exist_ok=True)

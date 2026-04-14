@@ -76,11 +76,58 @@ def _extract_epub(path: Path) -> str:
 
 
 def _extract_pdf(path: Path) -> str:
-    """Extract text from PDF via LangChain's community loader."""
+    """Extract text from PDF via LangChain's community loader.
+
+    Returns the text and detects scanned/image-based PDFs by checking
+    if the extracted text is too short relative to page count.
+    """
     from langchain_community.document_loaders import PyPDFLoader
 
     docs = PyPDFLoader(str(path)).load()
-    return "\n\n".join(doc.page_content for doc in docs)
+    text = "\n\n".join(doc.page_content for doc in docs)
+
+    # Detect scanned PDFs: if text per page is very low, it's likely image-based
+    if docs and len(text.strip()) < len(docs) * 100:
+        raise ScannedPDFError(
+            page_count=len(docs),
+            extracted_chars=len(text.strip()),
+            path=path,
+        )
+
+    return text
+
+
+class ScannedPDFError(Exception):
+    """Raised when a PDF appears to be scanned/image-based and needs OCR."""
+
+    def __init__(self, page_count: int, extracted_chars: int, path: Path):
+        self.page_count = page_count
+        self.extracted_chars = extracted_chars
+        self.path = path
+        super().__init__(
+            f"Scanned PDF detected: {path.name} has {page_count} pages "
+            f"but only {extracted_chars} chars of text. "
+            f"Use pdf_to_images() then OCR with Haiku vision."
+        )
+
+
+def pdf_to_images(path: str | Path, out_dir: str | Path, dpi: int = 200) -> list[Path]:
+    """Convert a PDF to PNG images, one per page. Returns list of image paths."""
+    import fitz
+
+    path = Path(path)
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    doc = fitz.open(str(path))
+    image_paths = []
+    for i, page in enumerate(doc):
+        pix = page.get_pixmap(dpi=dpi)
+        img_path = out_dir / f"page_{i:03d}.png"
+        pix.save(str(img_path))
+        image_paths.append(img_path)
+
+    return image_paths
 
 
 def _extract_html(path: Path) -> str:
