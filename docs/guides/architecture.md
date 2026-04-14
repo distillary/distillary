@@ -19,7 +19,7 @@ Agents are individual workers with specific models:
 - **Opus** (5 agents): grouping, pyramid building, concept mapping, comparison, research, explore
 
 Skills are orchestration workflows that chain agents:
-- `distillary-add-source`: full pipeline from file to brain (asks user about chunk storage)
+- `distillary-add-source`: full pipeline from file to brain (chunks always stored locally)
 - `distillary-research`: deep iterative question-answering with 6 strategies + 10 advanced methods
 - `distillary-retrieval`: self-contained skill for querying published brains
 - `distillary-publish`: Quartz build + agent.json generation
