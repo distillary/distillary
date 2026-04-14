@@ -125,6 +125,7 @@ This enables filtering by source type, author, date, and medium. The `chunks_ava
 | `distillary-combine` | "combine", "merge vaults" | Cross-vault concept mapping + bridges |
 | `distillary-doctor` | "fix", "check", "issues" | Fix + discover + suggestions |
 | `distillary-publish` | "publish", "share" | Git + Quartz deploy + agent.json generation |
+| `distillary-brains` | "add brain", "list brains", "connect brain" | Manage connected brains via `brains.yaml`. Add local or published brains. Research agent searches all. |
 | `distillary-retrieval` | "query brain", "look up" | **Shareable** — give to any agent to query a published brain via URL |
 | `distillary-use-brain` | "explore brain", "learn about" | Full navigation guide — 6 strategies by question type |
 | `distillary-research` | "research", "investigate", "ابحث", "ما رأي" | Deep research — iterative search with evidence evaluation |

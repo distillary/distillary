@@ -32,7 +32,8 @@ Turn any knowledge source into a navigable, verifiable, shareable brain.
 
 ## Applications
 
-- [Applications & use cases](guides/applications.md) — academic research, legal analysis, Islamic studies, business strategy, technical documentation, education, journalism, personal knowledge management
+- [Applications & use cases](guides/applications.md) — contemplative reading, critical thinking, academic research, legal analysis, Islamic studies, business strategy, technical documentation, education, journalism, personal knowledge management
+- [Managing multiple brains](guides/multi-brain.md) — connect local and published brains, cross-brain research, brain federation
 
 ## Design
 

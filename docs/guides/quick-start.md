@@ -98,6 +98,16 @@ The deep research agent:
 - Optionally verifies claims against source chunks
 - Writes a structured answer with citations and confidence rating
 
+### 8. Connect more brains
+
+Copy the example config:
+
+```bash
+cp brains.example.yaml brains.yaml
+```
+
+Edit `brains.yaml` to add local or published brains. The research agent will search across all of them. See [Managing multiple brains](multi-brain.md).
+
 ## What's next
 
 - [How it works](how-it-works.md) — the full pipeline and note format

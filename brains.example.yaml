@@ -1,0 +1,34 @@
+# Available brains — the research agent searches across all of these
+# Add a brain: local path or published URL
+# Remove a brain: delete its entry
+
+brains:
+  - name: "Islamic Knowledge"
+    path: "brain/"
+    type: local
+    description: "Al-Risala (usul al-fiqh), al-Da' wa al-Dawa' (spiritual ethics), Art of Money Getting (practical wisdom)"
+
+  - name: "Security Frameworks"
+    path: "brain-security/"
+    type: local
+    description: "Saudi NCA cybersecurity frameworks (ECC, CCC, CSCC, OTCC, DCC, NCNICC), Government Procurement Law"
+
+# Examples of external brains you can add:
+#
+# Local brain on disk:
+#  - name: "Philosophy"
+#    path: "/Users/me/Projects/philosophy-brain/"
+#    type: local
+#    description: "Stoicism, existentialism, ethics"
+#
+# Published brain via URL:
+#  - name: "Startup Knowledge"
+#    path: "https://user.github.io/startup-brain/"
+#    type: published
+#    description: "Lean Startup, Mom Test, Zero to One"
+#
+# Git-cloned brain:
+#  - name: "Legal Research"
+#    path: "../legal-brain/"
+#    type: local
+#    description: "Contract law, regulatory compliance"

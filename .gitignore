@@ -19,6 +19,9 @@ toremove/
 brain/
 brain-*/
 
+# User brain config (contains local paths — brains.example.yaml is committed instead)
+brains.yaml
+
 # Launch checklist (internal)
 todo.md
 
