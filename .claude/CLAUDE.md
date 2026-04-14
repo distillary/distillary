@@ -69,12 +69,12 @@ url: ""
 source_slug: ries-lean-startup
 ingested: 2026-04-07
 extracted_by: claude-haiku-4.5
-chunks_available: true       # false for copyrighted sources
-chunks_reason: "public_domain"  # or "copyrighted", "proprietary", "excluded_for_publishing"
+chunks_available: true       # always true — chunks always stored locally
+publishable: true            # false for copyrighted sources — chunks excluded from publishing
 ---
 ```
 
-This enables filtering by source type, author, date, and medium. The `chunks_available` field tells agents whether fact-checking against source text is possible for this source.
+This enables filtering by source type, author, date, and medium. The `publishable` field tells the publish skill whether to include source chunks in the public site (false for copyrighted material).
 
 ## Agents
 
@@ -114,7 +114,7 @@ This enables filtering by source type, author, date, and medium. The `chunks_ava
 - **Keep titles under 150 characters**
 - **Preserve full body text** when editing
 - **Preserve `backing` and `passages` fields** — any agent that writes or modifies atom claims must keep these fields intact. Dedupe merges them; all others copy them unchanged.
-- **Chunks are optional but recommended** — saved to `brain/sources/{slug}/chunks/` for fact-checking. For copyrighted or proprietary sources, chunks can be omitted (claims still work without them — `passages` field becomes unverifiable but the claim itself is still valid). When publishing a brain, exclude `chunks/` directories to avoid sharing copyrighted source text. The `passages` field on claims remains useful as a reading reference even without the chunk files.
+- **Chunks always stored locally** — saved to `brain/sources/{slug}/chunks/` during ingestion. They cost nothing and enable fact-checking every claim. The copyright question only matters at **publish time**: sources with `publishable: false` in `_source.md` have their chunks excluded from the published site.
 
 ## Skills
 
@@ -126,6 +126,7 @@ This enables filtering by source type, author, date, and medium. The `chunks_ava
 | `distillary-doctor` | "fix", "check", "issues" | Fix + discover + suggestions |
 | `distillary-publish` | "publish", "share" | Git + Quartz deploy + agent.json generation |
 | `distillary-brains` | "add brain", "list brains", "connect brain" | Manage connected brains via `brains.yaml`. Add local or published brains. Research agent searches all. |
+| `distillary-redo` | "redo", "re-extract", "reprocess" | Re-extract a source with quality issues. Deletes old claims, keeps chunks, re-runs pipeline. |
 | `distillary-retrieval` | "query brain", "look up" | **Shareable** — give to any agent to query a published brain via URL |
 | `distillary-use-brain` | "explore brain", "learn about" | Full navigation guide — 6 strategies by question type |
 | `distillary-research` | "research", "investigate", "ابحث", "ما رأي" | Deep research — iterative search with evidence evaluation |
@@ -227,5 +228,5 @@ confidence: exact|synthesized|inferred
 - **`source/` tag on everything** — distinguishes sources, enables filtering
 - **`source/cross-vault` tag** — marks bridge concepts that span sources
 - **`_source.md` per source** — metadata: type, author, url, date for filtering and attribution
-- **Chunks enable fact-checking (optional)** — `passages` field on claims references chunk files + line ranges + snippets. Full text stays in chunks, claims stay clean. For copyrighted sources, chunks can be excluded from publishing — the `passages` field still serves as a reading reference (chapter, page, section). For open/public domain sources, chunks provide full verifiability.
+- **Chunks always stored, publish-gated** — chunks are always saved locally during ingestion (they cost nothing and enable fact-checking). The `publishable` field in `_source.md` controls whether chunks are included when publishing. Copyrighted source chunks stay local; public domain chunks get published for full verifiability.
 - **`backing` captures argumentation** — 9 universal categories (textual, transmitted, consensus, analogical, empirical, rational, experiential, authority, silence) with warrant explaining WHY evidence supports the claim

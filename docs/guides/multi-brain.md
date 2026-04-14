@@ -12,15 +12,15 @@ All connected brains are listed in `brains.yaml` at the project root:
 
 ```yaml
 brains:
-  - name: "Islamic Knowledge"
+  - name: "Business Strategy"
     path: "brain/"
     type: local
-    description: "Jurisprudence methodology, spiritual ethics, practical wisdom"
+    description: "Lean Startup, Zero to One, Good to Great"
 
-  - name: "Security Frameworks"
-    path: "brain-security/"
+  - name: "Psychology"
+    path: "brain-psychology/"
     type: local
-    description: "Cybersecurity controls, compliance, procurement law"
+    description: "Thinking Fast and Slow, Influence, Flow"
 
   - name: "Philosophy"
     path: "https://someone.github.io/philosophy-brain/"
@@ -67,12 +67,12 @@ When you ask a question without specifying a brain:
 
 The research agent:
 1. Reads `brains.yaml` — finds 2 local brains
-2. Searches both: Islamic brain has claims about محاسبة (accountability before God), Security brain has claims about audit trails and compliance enforcement
+2. Searches both: Business brain has claims about decision-making frameworks, Psychology brain has claims about cognitive biases
 3. Prefixes findings with brain name:
 
 ```
-**[Islamic Knowledge]** Accountability (المحاسبة) is a spiritual principle...
-**[Security Frameworks]** Audit logging with 12-month retention (ECC 2-12-3)...
+**[Business Strategy]** Decision-making under uncertainty requires validated learning...
+**[Psychology]** System 1 thinking leads to predictable judgment errors...
 ```
 
 4. Synthesizes across brains — finds structural parallels
@@ -81,7 +81,7 @@ The research agent:
 ### Specifying a single brain
 
 ```
-"Research in brain-security/: what are the MFA requirements?"
+"Research in brain-psychology/: what causes decision fatigue?"
 ```
 
 The agent searches only that brain.
@@ -93,7 +93,7 @@ The concept-mapper and analytics agents need file-level access — they read ent
 ### Mapping two local brains
 
 ```
-"Map concepts between brain/ and brain-security/"
+"Map concepts between brain/ and brain-psychology/"
 ```
 
 The concept-mapper reads entities from both brains' `sources/*/entities/` directories and finds cross-domain connections. The agents don't change — they just receive paths from two brains instead of one.
@@ -158,6 +158,6 @@ Published brains don't include `chunks/` — your copyrighted source material st
 
 - **Personal + professional:** One brain for books you read, another for work-related regulatory documents
 - **Team knowledge:** Each team member publishes their brain, everyone clones each other's for cross-brain mapping
-- **Domain separation:** Keep Islamic studies, computer science, and business in separate brains that can still cross-reference
+- **Domain separation:** Keep philosophy, science, and business in separate brains that can still cross-reference
 - **Before/after:** Clone someone's brain, add your own sources, run concept-mapper to see what your additions connect to
 - **Collaborative research:** Two researchers each build a brain on related topics, clone each other's, run analytics to find where their knowledge overlaps and diverges

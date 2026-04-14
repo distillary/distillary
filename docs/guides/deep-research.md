@@ -44,8 +44,8 @@ Find entity page for X → read its `## Referenced by` section. Each backlink is
 ```
 Entity: القياس
   └── Referenced by:
-      ├── القياس أصل من أصول الاستدلال (shafii-resala)
-      ├── القياس يحتاج إلى علة صحيحة (shafii-resala)
+      ├── Validated learning measures real progress (ries-lean-startup)
+      ├── Cohort analysis reveals true retention (ries-lean-startup)
       └── ...
 ```
 
@@ -118,7 +118,7 @@ Can't find what X IS? Search for what X is NOT. Claims that contrast with X, opp
 
 Search `warrant:` fields across unrelated claims. If the same reasoning pattern appears in multiple places, you've found a hidden meta-principle the brain holds but never states explicitly.
 
-**Example from real test:** The agent discovered "الحالة الداخلية تحدد النتيجة الخارجية" (the internal state determines the external outcome) — a principle that appears in Shafi'i's warrants (knowledge + methodology = correct ruling), Ibn Qayyim's warrants (pure heart = effective cure), and Barnum's warrants (integrity = lasting wealth). No single source states this principle, but all three build on it.
+**Example:** The agent discovered "measure what matters, not what's easy" — a principle that appears across multiple sources' warrants. Source A argues for validated learning over vanity metrics. Source B argues for real customer commitment over compliments. No single source states the meta-principle, but all build on it.
 
 ### Method C — Evidence Archaeology
 
@@ -128,13 +128,13 @@ Trace a single piece of evidence (a hadith, a verse) across every claim that cit
 
 Find claims at the intersection of two thematic clusters. These bridge themes and often contain the most nuanced arguments.
 
-**Example from real test:** Shafi'i's ijtihad cluster intersects Ibn Qayyim's healing cluster at the requirement of يقين (certainty). The mujtahid needs certainty in his methodology; the supplicant needs certainty in God's response. Same principle, different domains.
+**Example:** Source A's "customer validation" cluster intersects Source B's "cognitive bias" cluster at the concept of confirmation bias. Entrepreneurs need to avoid it when testing hypotheses; psychologists study it as a universal judgment error. Same mechanism, different domains.
 
 ### Method E — Analogical Transfer
 
 If Source A answers a similar question in Domain A, the bridge concept between A and B may carry the answer across domains.
 
-**Example from real test:** Barnum's "caution with boldness" principle transfers to ijtihad — the mujtahid needs the caution of thorough verification with the boldness to issue a ruling. The bridge concept [[إيجاد مجال الكفاءة والالتزام به]] carries this across.
+**Example:** Source A's principle of "failing fast" transfers to Source B's domain of investment — the investor needs the boldness to make bets with the discipline to cut losses early. A bridge concept carries the principle across domains.
 
 ### Method F — Strength Aggregation
 
@@ -148,7 +148,7 @@ Search for `role/rebuttal` claims. The objections an author anticipated reveal e
 
 Read ALL layers (0-3) for the same topic. The root says one thing abstractly; the atom says it concretely with evidence. The gap between them reveals the reasoning chain.
 
-**Example from real test:** At root level, Shafi'i says "الرسالة أسست علم أصول الفقه" and Ibn Qayyim says "المعاصي داء والتوحيد دواء." At atom level, Shafi'i says "الحاكم يحكم بالظاهر" and Ibn Qayyim says "الله لا يقبل دعاء من قلب غافل." Combining root + atom: the mujtahid judges by the apparent, but his heart must be present with God to be guided.
+**Example:** At root level, Source A says "build-measure-learn is the engine of startups." At atom level, it says "run the cheapest experiment that tests your riskiest assumption." The root gives you the principle; the atom gives you the specific action. Reading both layers reveals the reasoning chain from philosophy to practice.
 
 ### Method I — Entity Co-occurrence
 
@@ -156,7 +156,11 @@ If two entities frequently appear in the same claims (overlapping backlink lists
 
 ### Method J — Source Signature Analysis
 
-Each source has a characteristic argumentation style (check `shared/analytics/statistical-profiles.md`). A source that argues through hadith gives a different kind of answer than one arguing through rational methods. The signature tells you how much to trust its claims on a given topic.
+Each source has a characteristic argumentation style (check `shared/analytics/statistical-profiles.md`). A source that argues through empirical evidence gives a different kind of answer than one arguing through rational methods. The signature tells you how much to trust its claims on a given topic.
+
+### Method K — Source Passage Verification
+
+When citing a claim as evidence, check its `passages:` field. Read the referenced chunk file at the specified lines. Confirm the passage actually supports the claim. If the passage is weaker than the claim suggests, downgrade confidence. This prevents building answers on poorly extracted claims.
 
 ## Output Format
 

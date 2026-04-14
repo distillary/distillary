@@ -52,8 +52,8 @@ Write results to the file specified by the user:
 ### Missing passages field
 - [[Claim title]] — no passages field, cannot verify
 
-### Chunks not available (copyrighted source)
-- [[Claim title]] — source has chunks_available: false, verification skipped (not a failure)
+### Chunks not found (published/cloned brain without chunks)
+- [[Claim title]] — chunk file not found at referenced path, likely a cloned published brain
 
 ### Confidence corrections
 - [[Claim title]] — rated "exact" but should be "synthesized" (draws from 3 passages)
@@ -70,4 +70,4 @@ Write results to the file specified by the user:
 - A claim is UNVERIFIED if the passage contradicts or does not address the proposition
 - Report specific line numbers where you found (or didn't find) the evidence
 - Do NOT modify any claim files — this is a read-only audit
-- **If chunk files don't exist** (copyrighted source): check `_source.md` for `chunks_available: false`. Report as "CHUNKS NOT AVAILABLE — copyrighted source, verification skipped" — this is NOT a failure, it's expected. Still check that the `passages` field has plausible snippets and source_refs.
+- **If chunk files don't exist** (cloned or published brain): report as "CHUNK FILE NOT FOUND — likely a cloned brain without source text." This only happens with brains cloned from published sources. Local brains always have chunks.

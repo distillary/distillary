@@ -13,7 +13,7 @@ Every source (book, video, article, regulatory framework) has an argument struct
 ```
 Source text (book, PDF, video transcript, article)
   ↓ split into ~20KB chunks
-  ↓ save chunks permanently to brain/sources/{slug}/chunks/ (optional — user chooses)
+  ↓ save chunks permanently to brain/sources/{slug}/chunks/
   ↓ parallel haiku agents → atomic claims with backing + passages
   ↓ haiku agent → deduplicate (merge passages lists)
   ↓ haiku agent → extract entities (people, concepts, frameworks)
@@ -28,30 +28,26 @@ Source text (book, PDF, video transcript, article)
 Brain vault
 ```
 
-Before starting, the system asks:
-
-> **Include source chunks for fact-checking?**
-> - **Yes** — stores extracted text in the brain. Any claim can be verified back to the exact source passage. Best for public domain, open access, regulatory documents.
-> - **No** — extracts claims but discards source text. Claims still have passage references (snippets + section refs) as reading aids. Best for copyrighted books, proprietary documents.
+Chunks are always saved locally — no question asked. They cost nothing and enable fact-checking every claim. Copyright only matters at publish time: sources marked `publishable: false` in `_source.md` have their chunks excluded from the public site.
 
 ## The pyramid
 
 ```
 Layer 3: Root thesis (1 note)
-  "Essential Cybersecurity Controls protect Saudi national interests
-   through layered mandatory requirements"
+  "The Lean Startup engineers sustainable businesses
+   through validated learning"
     ↓
 Layer 2: Structure (~2-3 notes)
-  "Governance-led defense and resilience"
-  "Practical application of controls across domains"
+  "Pivots and growth engines drive course correction"
+  "Innovation accounting replaces vanity metrics"
     ↓
 Layer 1: Clusters (~5-8 notes)
-  "Identity verification and privilege control"
-  "Network segmentation and data encryption"
+  "Small batches accelerate the feedback loop"
+  "Customer validation precedes scaling"
     ↓
 Layer 0: Atoms (~50-300 notes)
-  "MFA for remote access" [ECC 2-2-3-2, backed by regulatory mandate]
-  "Encryption per NCS-1:2020 advanced level" [CCC 2-7-P-1-1, definitive strength]
+  "Zappos tested demand by posting shoe photos" [backed by experiential/case_study]
+  "Cohort analysis reveals true retention" [backed by empirical/methodology, strength: strong]
 ```
 
 Each layer summarizes the layer below. Drill down for detail + evidence. Drill up for context.
@@ -63,38 +59,38 @@ Each layer summarizes the layer below. Drill down for detail + evidence. Drill u
 tags:
   - type/claim/atom
   - priority/core
-  - certainty/established
+  - certainty/argued
   - stance/endorsed
-  - domain/cybersecurity
-  - role/requirement
-  - source/ecc-2024
-  - backing/textual
-  - strength/definitive
+  - domain/methodology
+  - role/argument
+  - source/ries-lean-startup
+  - backing/empirical
+  - strength/strong
 kind: claim
 layer: 0
-proposition: "remote access → must use multi-factor authentication → for all users"
-source_ref: "ECC 2-2-3-2"
-published: 2024
+proposition: "validated learning → measures progress → better than vanity metrics"
+source_ref: "Chapter 7: Measure"
+published: 2011
 extracted_by: claude-haiku-4.5
 prompt_version: v4.0
 backing:
-  - category: textual
-    subtype: regulatory_mandate
-    ref: "ECC 2-2-3-2"
-    snippet: "Multi-factor authentication for remote access"
-    strength: definitive
-    warrant: "Prevents unauthorized access even if credentials are compromised"
+  - category: empirical
+    subtype: case_study
+    ref: "IMVU pivot story"
+    snippet: "We had been spending our time improving a product that nobody wanted"
+    strength: strong
+    warrant: "The IMVU case demonstrates that traditional metrics masked the fundamental product-market fit failure"
 passages:
-  - chunk: "chunk_01.txt"
-    lines: [117, 118]
-    snippet: "Multi-factor authentication for remote access.2-2-3-2"
+  - chunk: "chunk_04.txt"
+    lines: [42, 48]
+    snippet: "We had been spending our time improving a product that nobody wanted"
 confidence: exact
 ---
 
-MFA must be implemented for all remote access to organizational systems.
-No single-factor remote access permitted.
+Validated learning is empirically demonstrated progress through experiments
+that test specific hypotheses about the business.
 
-Parent: [[Identity verification and privilege control prevent unauthorized system access]]
+Parent: [[Innovation accounting replaces vanity metrics]]
 ```
 
 ### What each field does
@@ -143,10 +139,10 @@ These work across any domain — Islamic jurisprudence, cybersecurity, academic 
 When two sources discuss the same concept under different names, a bridge entity unifies them:
 
 ```
-ECC: "Access Control"  ←→  NCNICC: "التحقق من الهوية"
-                ↓
-     Bridge: "Identity & Access Management"
-     (aliases both names, backlinks from both frameworks)
+Lean Startup: "Vanity Metrics"  ←→  Mom Test: "Compliments"
+                     ↓
+          Bridge: "False Signals"
+          (aliases both names, backlinks from both sources)
 ```
 
 The bridge page shows both perspectives and every claim from both sources. One read = complete cross-source answer.
@@ -163,20 +159,20 @@ Claim: "MFA for remote access"
   → VERIFIED — exact match
 ```
 
-This works when chunks are stored. For copyrighted sources (chunks not stored), passages still provide snippets and section references as reading aids.
+Chunks are always stored locally, so this always works on your machine. For published brains, verification depends on whether the publisher included chunks (copyrighted sources typically don't).
 
 ## Agent navigation
 
 Entity pages are question-answering hubs. Their backlinks ARE the answer to "what does this brain know about X?"
 
 ```
-Question: "What are the MFA requirements?"
-  → find entity: "Multi-Factor Authentication"
+Question: "How do I validate demand?"
+  → find entity: "Customer Validation"
   → read its Referenced-by section
-  → ECC 2-2-3-2: MFA for remote access
-  → CCC 2-2-P-1-3: MFA for privileged cloud users
-  → NCNICC 2-2-1-2: MFA for email and external apps
-  = 1 entity page, multi-source answer with control IDs
+  → Lean Startup: test with MVP before building
+  → Mom Test: look for commitment, not compliments
+  → Zero to One: find a secret others have missed
+  = 1 entity page, multi-source answer with citations
 ```
 
 ## Deep research

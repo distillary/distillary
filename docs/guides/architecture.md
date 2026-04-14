@@ -47,7 +47,7 @@ brain/
   *.base                           Analytical Bases
   sources/                         Processed sources (agent-generated)
     {source-slug}/
-      _source.md                   Metadata (title, author, type, year, chunks_available)
+      _source.md                   Metadata (title, author, type, year, publishable)
       _index.md                    Narrative overview of this source
       chunks/                      Source text chunks (OPTIONAL — user chooses)
         chunk_00.txt
@@ -112,5 +112,5 @@ This makes claims not just assertions but **auditable, evidence-graded, source-t
 - **Backlinks are the search engine.** Entity pages + backlinks = "what does this brain know about X?" No keyword search needed.
 - **Entity-link before group.** Wikilinks are added to claims BEFORE grouping, so atom files written to the vault already contain entity links. No manual patching needed.
 - **Backing captures argumentation.** 9 universal categories work across any domain. The same framework handles Islamic jurisprudence, cybersecurity regulation, academic research, and business books.
-- **Chunks are optional.** User chooses whether to store source text for fact-checking. Copyrighted sources can omit chunks — claims still work, just lose the verification layer. The `_source.md` metadata records the choice via `chunks_available`.
+- **Chunks always stored, publish-gated.** Chunks are always saved locally during ingestion (they cost nothing, enable full fact-checking). The `publishable` field in `_source.md` controls whether chunks are included when publishing to the web. Copyrighted source chunks stay local; public domain chunks get published.
 - **Passages are lightweight.** Claims store only pointers (chunk + lines + ~15-word snippet), not full text. The full context stays in chunk files. This keeps claims clean while enabling full traceability.

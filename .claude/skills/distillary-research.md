@@ -40,6 +40,21 @@ The answer goes to `brain/personal/research/` with:
 - Confidence level (HIGH/MEDIUM/LOW)
 - Gaps — what the brain doesn't know
 
+## After completion
+
+**Always tell the user:**
+
+```
+Research complete.
+
+Answer written to: brain/personal/research/{filename}.md
+Confidence: {HIGH/MEDIUM/LOW}
+Claims read: {N}
+Sources consulted: {list}
+
+Open the file to read the full answer with evidence citations.
+```
+
 ## When to use
 
 - Complex questions that span multiple sources

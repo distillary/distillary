@@ -38,21 +38,18 @@ To fact-check: read the `passages` list → open each chunk at the line range �
 
 ## Design Principles
 
-1. **Chunks are optional.** They move from `tmp/` into `brain/sources/{slug}/chunks/` as part of the pipeline. For open/public domain sources (NCA frameworks, public domain books, open access papers), chunks provide full verifiability. For copyrighted or proprietary sources (commercial books, paid research, client documents), chunks can be:
-   - **Kept locally** but excluded from publishing (add `chunks/` to `.gitignore` or Quartz exclude list)
-   - **Omitted entirely** — the pipeline works without them, claims just lose the fact-checking layer
-   - **Stored separately** from the brain (e.g., in a private directory) with `passages` pointing to the external path
+1. **Chunks are always stored locally.** During ingestion, chunks move from extraction into `brain/sources/{slug}/chunks/` permanently. They're just text files — they cost nothing and enable fact-checking every claim. There is no option to skip this.
 
-2. **Every claim points to its source.** The `passages` field in frontmatter references chunk files + line ranges + snippets. If chunks are present, passages are fully verifiable. If chunks are absent, passages still serve as reading references (the snippet tells you what to look for in the original book/document).
+2. **Every claim points to its source.** The `passages` field in frontmatter references chunk files + line ranges + snippets. Since chunks are always present locally, passages are always verifiable on your machine.
 
-3. **Snippets are short references, not reproductions.** The `snippet` field is ~15 words — enough to locate the passage, not enough to reproduce copyrighted content. Even without chunk files, the snippet + `source_ref` (chapter/section) gives enough information to find the passage in the original source.
+3. **Snippets are short references, not reproductions.** The `snippet` field is ~15 words — enough to locate the passage, not enough to reproduce copyrighted content. When published, snippets travel with claims but full chunks may not.
 
-4. **Verification requires chunks.** The verify agent reads chunks to confirm claims. If chunks are absent, the verify agent reports "CHUNK NOT AVAILABLE — cannot verify" instead of "UNVERIFIED." This is not a failure — it's an expected state for copyrighted sources.
+4. **Copyright only matters at publish time.** The `publishable` field in `_source.md` controls whether chunks are included in the published site. Copyrighted source chunks stay local; public domain chunks get published for full remote verifiability. The verify agent always works locally (chunks always present). For published brains, remote verification depends on whether the publisher included chunks.
 
-5. **The `_source.md` metadata should indicate chunk availability.** Add a field:
+5. **The `_source.md` metadata controls publishing:**
    ```yaml
-   chunks_available: true    # or false for copyrighted sources
-   chunks_reason: "public_domain"  # or "copyrighted" or "proprietary" or "excluded_for_publishing"
+   chunks_available: true       # always true — chunks always stored locally
+   publishable: true            # false for copyrighted sources — chunks excluded from publishing
    ```
 
 ## Schema Change

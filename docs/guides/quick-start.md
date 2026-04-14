@@ -36,13 +36,7 @@ Open the project folder in Claude Code. Say:
 
 > Add books/my-book.epub to my brain. Title: "My Book", Author: "Author Name", Published: 2024
 
-Claude will ask:
-
-> **Include source chunks for fact-checking?**
-> - **Yes** — any claim can be traced back to exact source text (recommended for public domain / open access)
-> - **No** — claims only, no source text stored (for copyrighted material)
-
-Then the pipeline runs:
+The pipeline runs:
 
 - Split text into chunks, save permanently if chosen (~30 sec)
 - 16 parallel haiku agents extract claims with backing + passages (~2 min)
@@ -69,7 +63,7 @@ Open `brain/` as a vault in Obsidian.
 - Open `.base` files for analytical database views
 - Read `_suggestions.md` for ghost concepts to explore
 - Check `backing:` fields on claims to see evidence type and strength
-- If chunks are stored, check `passages:` to read the exact source text
+- Check `passages:` to read the exact source text in the chunk files
 
 ### 6. Add a second source
 

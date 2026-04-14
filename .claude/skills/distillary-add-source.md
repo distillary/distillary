@@ -20,13 +20,9 @@ Add any knowledge source to `brain/sources/{slug}/` and connect it to everything
 
 ## Before starting: Ask the user
 
-Before processing, ask:
+**Always store chunks locally.** Chunks are just text files — they cost nothing and they enable fact-checking every claim back to the exact source passage. There is no reason to skip this during ingestion.
 
-> **Include source chunks for fact-checking?**
-> - **Yes** — stores the extracted text in the brain. Enables verifying any claim back to the exact source passage. Best for: public domain, open access, regulatory documents, your own notes.
-> - **No** — extracts claims but does not store source text. Claims still have passage references (snippets + section refs) but cannot be verified against source text. Best for: copyrighted books, proprietary documents, paid research papers.
-
-Set `chunks_mode` based on the answer: `"full"` or `"references_only"`.
+The copyright question only matters at **publish time** (see `distillary-publish`). When publishing, copyrighted source chunks are excluded automatically based on `_source.md` metadata.
 
 ## Pipeline (same for all source types)
 
@@ -40,27 +36,20 @@ from pathlib import Path
 text = extract_text("path/to/source")
 chunks = split_text(text, 20000)
 
-# Save chunks based on user's choice
-if chunks_mode == "full":
-    chunk_dir = Path("brain/sources/{slug}/chunks")
-    chunk_dir.mkdir(parents=True, exist_ok=True)
-    for i, chunk in enumerate(chunks):
-        (chunk_dir / f"chunk_{i:02d}.txt").write_text(chunk, encoding="utf-8")
-# If "references_only": chunks stay in tmp/ for extraction only, then deleted
+# Always save chunks permanently
+chunk_dir = Path("brain/sources/{slug}/chunks")
+chunk_dir.mkdir(parents=True, exist_ok=True)
+for i, chunk in enumerate(chunks):
+    (chunk_dir / f"chunk_{i:02d}.txt").write_text(chunk, encoding="utf-8")
 ```
 
 Set in `_source.md`:
 ```yaml
-chunks_available: true    # if chunks_mode == "full"
-chunks_reason: "public_domain"
-
-# OR
-
-chunks_available: false   # if chunks_mode == "references_only"
-chunks_reason: "copyrighted"  # or "proprietary"
+chunks_available: true
+publishable: true     # false for copyrighted sources — chunks excluded from publishing
 ```
 
-The extract agent always receives chunks (it needs them to extract claims). The difference is whether chunks are kept permanently in the brain or discarded after extraction.
+Chunks are always stored locally. The `publishable` field tells the publish skill whether to include chunks when deploying to the web.
 
 For YouTube:
 ```bash
@@ -72,24 +61,42 @@ Use WebFetch tool or curl + clean HTML.
 
 ### 2. Extract claims (parallel haiku agents)
 
+**Tell the user:** "Extracting claims from {N} chunks in parallel..."
+
 Launch `extract` agents with:
 - Source title, author/creator, year
 - Source slug (e.g., `ries-lean-startup`, `yc-validate-ideas-2024`)
 - Source type for `source_ref` context
 
+**When done, tell the user:** "Extracted {N} claims from {source title}."
+
 ### 3. Dedupe + entities (parallel haiku agents)
 
+**Tell the user:** "Deduplicating and extracting entities..."
+
+**When done:** "{N} unique claims. {M} entities found ({X} concepts, {Y} people)."
+
 ### 4. Entity-link (haiku agent)
+
+**Tell the user:** "Adding wikilinks to claim bodies..."
 
 Add [[wikilinks]] to claim bodies using the entity files from step 3. Write output to `linked_claims.md`.
 
 **This must complete BEFORE grouping** — the group agent must receive linked claims so that atom files written to the vault already contain wikilinks.
 
+**When done:** "{N} wikilinks added."
+
 ### 5. Group + pyramid (opus agents)
+
+**Tell the user:** "Grouping claims into hierarchy (this takes a few minutes)..."
 
 **Input: `linked_claims.md`** (NOT `deduped_claims.md`). This ensures every atom file written to the vault has entity wikilinks in its body text.
 
+**When done:** "{N} clusters, {M} structure claims, 1 root thesis."
+
 ### 6. Assemble into brain
+
+**Tell the user:** "Assembling vault and running post-processing..."
 
 ```python
 from distillary.vault_ops import fix_vault, reinforce_links, build_entity_hubs
@@ -134,11 +141,32 @@ Agent(subagent_type="source-index", model="haiku",
 
 ### 9. Auto-bridge to existing sources
 
+**Tell the user:** "Mapping concepts to existing sources..."
+
 Launch `concept-mapper` (opus) → `bridge-builder` (haiku) to connect new source to existing brain content.
+
+**When done:** "Found {N} bridge concepts connecting {source} to existing sources."
 
 ### 10. Update brain index
 
-Launch `brain-index` agent (haiku) to write/update the brain's main `_index.md`:
+Launch `brain-index` agent (haiku) to write/update the brain's main `_index.md`.
+
+### 11. Final summary
+
+**Always print a completion summary:**
+
+```
+Done! "{source title}" added to brain.
+
+Summary:
+  Claims: {N} atoms → {M} clusters → {K} structure → 1 root
+  Entities: {X} concepts, {Y} people
+  Bridges: {B} concepts connecting to other sources
+  Chunks: stored / not stored
+  Output: brain/sources/{slug}/
+
+Open brain/_index.md in Obsidian to explore.
+```
 
 ```
 Agent(subagent_type="brain-index", model="haiku",

@@ -8,7 +8,7 @@ Distillary doesn't just capture **what** authors claim — it captures **why** t
 
 ## The Problem
 
-A claim like "الإجماع حجة ملزمة" is an assertion. But the author didn't just assert it — they backed it with a Quranic verse, a hadith, and a logical argument. Without capturing that structure, you can't answer "what's the daleel?" and you can't compare argument quality across sources.
+A claim like "validated learning measures progress" is an assertion. But the author didn't just assert it — they backed it with case studies, data, and logical argument. Without capturing that structure, you can't answer "what's the evidence?" and you can't compare argument quality across sources.
 
 ## The Solution: `backing:` Field
 
@@ -191,17 +191,13 @@ When the same evidence (same hadith, same verse) is cited by multiple sources, i
 | "ما الدليل على حجية الإجماع؟" | Find claims → return backing entries |
 | "Show only definitive claims" | Filter by `strength/definitive` |
 | "Same evidence, different conclusions?" | Shared evidence hubs with warrant comparison |
-| "How does al-Shafi'i argue vs Ibn Qayyim?" | Compare backing category distributions |
+| "How does Source A argue vs Source B?" | Compare backing category distributions |
 | "What claims have no evidence?" | Claims without `backing:` field |
 
-## Stats from Current Brain
+## What It Looks Like in Practice
 
-Ibn Qayyim's الداء والدواء (78 claims, re-extracted with v3.0):
-- 52 claims with backing (67%)
-- 67 backing entries: 32 transmitted, 17 rational, 12 textual, 5 authority, 1 experiential
-- 67 warrants (100% of backings)
-- 28 definitive, 33 strong, 6 moderate
-
-Al-Shafi'i's الرسالة (79 claims, re-extracted with v3.0):
-- 79 claims with backing (100%)
-- 87 backing entries with warrants
+A typical source produces:
+- 60-80% of claims with backing (the rest are bare assertions)
+- 2-5 backing categories per source (most sources don't use all 9)
+- 100% of backings have warrants (the extract agent always captures the reasoning)
+- A mix of definitive, strong, and moderate evidence — the distribution reveals the author's argumentation style
