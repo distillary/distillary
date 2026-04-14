@@ -30,6 +30,10 @@ Turn any knowledge source into a navigable, verifiable, shareable brain.
 - [Deep research agent](guides/deep-research.md) — iterative question-answering with 6 core strategies + 10 advanced discovery methods + Method K source verification
 - [Source verification](guides/source-verification.md) — tracing claims back to exact source passages for fact-checking (optional — user chooses per source)
 
+## Applications
+
+- [Applications & use cases](guides/applications.md) — academic research, legal analysis, Islamic studies, business strategy, technical documentation, education, journalism, personal knowledge management
+
 ## Design
 
 - [Architecture](guides/architecture.md) — 16 agents, 9 skills, 11-step pipeline, vault structure, design decisions
