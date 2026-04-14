@@ -6,65 +6,65 @@
       <description>Last 10 notes on Distillary</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Applications — What You Can Build With a Brain</title>
-    <link>https://distillary.xyz/guides/applications</link>
-    <guid>https://distillary.xyz/guides/applications</guid>
-    <description><![CDATA[ Applications Distillary turns sources into a queryable, verifiable knowledge graph. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <title>Architecture</title>
+    <link>https://distillary.xyz/design/architecture</link>
+    <guid>https://distillary.xyz/design/architecture</guid>
+    <description><![CDATA[ Architecture Three layers .claude/ The brain — agents and skills that do the thinking distillary/ The hands — Python utilities agents call brain/ The output — Obsidian vault with all knowledge .claude/ (16 agents, 9 skills) Agents are individual workers with specific models: Haiku (11 agents): extra... ]]></description>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
-    <title>Deep Research Agent — Answering Hard Questions from the Brain</title>
-    <link>https://distillary.xyz/guides/deep-research</link>
-    <guid>https://distillary.xyz/guides/deep-research</guid>
-    <description><![CDATA[ Deep Research Agent The research agent answers questions by iteratively searching the brain — going back and forth, following links, checking evidence, cross-referencing sources — until it finds a comprehensive, well-evidenced answer. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <title>Design</title>
+    <link>https://distillary.xyz/design/</link>
+    <guid>https://distillary.xyz/design/</guid>
+    <description><![CDATA[  ]]></description>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>Argumentation Layer — How Distillary Captures Evidence</title>
-    <link>https://distillary.xyz/guides/argumentation-layer</link>
-    <guid>https://distillary.xyz/guides/argumentation-layer</guid>
+    <link>https://distillary.xyz/features/argumentation-layer</link>
+    <guid>https://distillary.xyz/features/argumentation-layer</guid>
     <description><![CDATA[ Argumentation Layer Distillary doesn’t just capture what authors claim — it captures why they believe it, how strong the evidence is, and what they argued against. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
+  </item><item>
+    <title>Deep Research Agent — Answering Hard Questions from the Brain</title>
+    <link>https://distillary.xyz/features/deep-research</link>
+    <guid>https://distillary.xyz/features/deep-research</guid>
+    <description><![CDATA[ Deep Research Agent The research agent answers questions by iteratively searching the brain — going back and forth, following links, checking evidence, cross-referencing sources — until it finds a comprehensive, well-evidenced answer. ]]></description>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
+  </item><item>
+    <title>Features</title>
+    <link>https://distillary.xyz/features/</link>
+    <guid>https://distillary.xyz/features/</guid>
+    <description><![CDATA[  ]]></description>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>Managing Multiple Brains</title>
-    <link>https://distillary.xyz/guides/multi-brain</link>
-    <guid>https://distillary.xyz/guides/multi-brain</guid>
+    <link>https://distillary.xyz/features/multi-brain</link>
+    <guid>https://distillary.xyz/features/multi-brain</guid>
     <description><![CDATA[ Multiple Brains Each brain is a self-contained knowledge vault focused on a domain. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
-    <title>Quick Start</title>
-    <link>https://distillary.xyz/guides/quick-start</link>
-    <guid>https://distillary.xyz/guides/quick-start</guid>
-    <description><![CDATA[ Quick start Process your first source into a brain vault in ~15 minutes. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
-  </item><item>
-    <title>Agent Retrieval Skill</title>
-    <link>https://distillary.xyz/guides/agent-retrieval</link>
-    <guid>https://distillary.xyz/guides/agent-retrieval</guid>
-    <description><![CDATA[ Agent retrieval skill A self-contained skill for querying any published Distillary brain. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <title>Source Verification — Tracing Claims Back to Exact Passages</title>
+    <link>https://distillary.xyz/features/source-verification</link>
+    <guid>https://distillary.xyz/features/source-verification</guid>
+    <description><![CDATA[ Source Verification Plan Every claim in the brain should be traceable back to the exact passage in the original text that supports it. ]]></description>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>Command Reference</title>
-    <link>https://distillary.xyz/guides/commands</link>
-    <guid>https://distillary.xyz/guides/commands</guid>
+    <link>https://distillary.xyz/getting-started/commands</link>
+    <guid>https://distillary.xyz/getting-started/commands</guid>
     <description><![CDATA[ Command Reference All commands use /dist:command-name. Each reads its agent definition file — consistent behavior every time. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>How It Works</title>
-    <link>https://distillary.xyz/guides/how-it-works</link>
-    <guid>https://distillary.xyz/guides/how-it-works</guid>
+    <link>https://distillary.xyz/getting-started/how-it-works</link>
+    <guid>https://distillary.xyz/getting-started/how-it-works</guid>
     <description><![CDATA[ How Distillary works The insight Every source (book, video, article, regulatory framework) has an argument structure: a central thesis supported by a hierarchy of claims backed by evidence. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
-    <title>Architecture</title>
-    <link>https://distillary.xyz/guides/architecture</link>
-    <guid>https://distillary.xyz/guides/architecture</guid>
-    <description><![CDATA[ Architecture Three layers .claude/ The brain — agents and skills that do the thinking distillary/ The hands — Python utilities agents call brain/ The output — Obsidian vault with all knowledge .claude/ (16 agents, 9 skills) Agents are individual workers with specific models: Haiku (11 agents): extra... ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
-  </item><item>
-    <title>Publishing Your Brain</title>
-    <link>https://distillary.xyz/guides/publishing</link>
-    <guid>https://distillary.xyz/guides/publishing</guid>
-    <description><![CDATA[ Publishing your brain Share your brain as a static website with graph view, search, and an agent-queryable API. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 15:44:40 GMT</pubDate>
+    <title>Getting Started</title>
+    <link>https://distillary.xyz/getting-started/</link>
+    <guid>https://distillary.xyz/getting-started/</guid>
+    <description><![CDATA[  ]]></description>
+    <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item>
     </channel>
   </rss>

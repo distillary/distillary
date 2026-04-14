@@ -1,37 +1,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
-    <loc>https://distillary.xyz/guides/agent-retrieval</loc>
-    <lastmod>2026-04-14T15:44:40.140Z</lastmod>
+    <loc>https://distillary.xyz/design/architecture</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/applications</loc>
-    <lastmod>2026-04-14T15:44:40.142Z</lastmod>
+    <loc>https://distillary.xyz/design/</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/architecture</loc>
-    <lastmod>2026-04-14T15:44:40.139Z</lastmod>
+    <loc>https://distillary.xyz/features/argumentation-layer</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/argumentation-layer</loc>
-    <lastmod>2026-04-14T15:44:40.141Z</lastmod>
+    <loc>https://distillary.xyz/features/deep-research</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/commands</loc>
-    <lastmod>2026-04-14T15:44:40.140Z</lastmod>
+    <loc>https://distillary.xyz/features/</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/deep-research</loc>
-    <lastmod>2026-04-14T15:44:40.142Z</lastmod>
+    <loc>https://distillary.xyz/features/multi-brain</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/how-it-works</loc>
-    <lastmod>2026-04-14T15:44:40.140Z</lastmod>
+    <loc>https://distillary.xyz/features/source-verification</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/multi-brain</loc>
-    <lastmod>2026-04-14T15:44:40.141Z</lastmod>
+    <loc>https://distillary.xyz/getting-started/commands</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/publishing</loc>
-    <lastmod>2026-04-14T15:44:40.139Z</lastmod>
+    <loc>https://distillary.xyz/getting-started/how-it-works</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/quick-start</loc>
-    <lastmod>2026-04-14T15:44:40.141Z</lastmod>
+    <loc>https://distillary.xyz/getting-started/</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
-    <loc>https://distillary.xyz/guides/source-verification</loc>
-    <lastmod>2026-04-14T15:44:40.138Z</lastmod>
+    <loc>https://distillary.xyz/getting-started/quick-start</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url><url>
     <loc>https://distillary.xyz/</loc>
-    <lastmod>2026-04-14T15:44:40.136Z</lastmod>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
+  </url><url>
+    <loc>https://distillary.xyz/sharing/agent-retrieval</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
+  </url><url>
+    <loc>https://distillary.xyz/sharing/applications</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
+  </url><url>
+    <loc>https://distillary.xyz/sharing/</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
+  </url><url>
+    <loc>https://distillary.xyz/sharing/publishing</loc>
+    <lastmod>2026-04-14T21:07:27.000Z</lastmod>
   </url></urlset>
