@@ -52,6 +52,7 @@ For each CHILD, add to its body: `Parent: [[Parent's title]]`
 - **Each child note must include its FULL original body text** followed by the Parent line — do not strip content
 - **Preserve `backing:` and `passages:` fields exactly** — copy them unchanged from input to output. These are critical for fact-checking and must not be modified or dropped.
 - **Keep titles under 150 characters** — use `proposition:` for the full canonical form
+- **When writing individual atom files** — do NOT include `## Title` at the top of the file. The filename IS the title. The file should start with `---` (the YAML frontmatter fence). Including `## Title` inside the file breaks Obsidian's YAML parser.
 
 **DO NOT write a "CHILD UPDATES" or "Child-Parent Assignments" section.** Instead, put the `Parent: [[X]]` line directly inside each child note's body. The output should be ONLY the notes — no summary blocks at the end.
 
