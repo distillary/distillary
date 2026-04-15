@@ -9,7 +9,7 @@
     <title>Architecture</title>
     <link>https://distillary.xyz/design/architecture</link>
     <guid>https://distillary.xyz/design/architecture</guid>
-    <description><![CDATA[ Architecture Three layers .claude/ The brain — agents and skills that do the thinking distillary/ The hands — Python utilities agents call brain/ The output — Obsidian vault with all knowledge .claude/ (16 agents, 9 skills) Agents are individual workers with specific models: Haiku (11 agents): extra... ]]></description>
+    <description><![CDATA[ Architecture Three layers .claude/ The brain — agents and skills that do the thinking distillary/ The hands — Python utilities agents call brain/ The output — Obsidian vault with all knowledge .claude/ (19 agents, 13 skills) Agents are individual workers with specific models: Haiku (13 agents): extr... ]]></description>
     <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>Design</title>
@@ -45,7 +45,7 @@
     <title>Source Verification — Tracing Claims Back to Exact Passages</title>
     <link>https://distillary.xyz/features/source-verification</link>
     <guid>https://distillary.xyz/features/source-verification</guid>
-    <description><![CDATA[ Source Verification Plan Every claim in the brain should be traceable back to the exact passage in the original text that supports it. ]]></description>
+    <description><![CDATA[ Source Verification Every claim in the brain is traceable back to the exact passage in the original text. ]]></description>
     <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>Command Reference</title>
