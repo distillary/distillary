@@ -15,7 +15,7 @@
     <title>Architecture</title>
     <link>https://distillary.xyz/design/architecture</link>
     <guid>https://distillary.xyz/design/architecture</guid>
-    <description><![CDATA[ Architecture Three layers .claude/ The brain — agents and skills that do the thinking distillary/ The hands — Python utilities agents call brain/ The output — Obsidian vault with all knowledge .claude/ (19 agents, 13 skills) Agents are individual workers with specific models: Haiku (13 agents): extr... ]]></description>
+    <description><![CDATA[ Architecture Three layers .claude/ The brain — agents and skills that do the thinking distillary/ The hands — Python utilities agents call brain/ The output — Obsidian vault with all knowledge .claude/ (20 agents, 13 skills) Agents are individual workers with specific models: Haiku (13 agents): extr... ]]></description>
     <pubDate>Tue, 14 Apr 2026 21:07:27 GMT</pubDate>
   </item><item>
     <title>Design</title>
